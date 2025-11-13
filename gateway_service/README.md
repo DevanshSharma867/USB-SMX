@@ -1,1 +1,0 @@
-# SMX - Gateway Service

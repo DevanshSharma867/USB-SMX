@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+gateway_service\src\gateway\__pycache__\*
 
 # C extensions
 *.so

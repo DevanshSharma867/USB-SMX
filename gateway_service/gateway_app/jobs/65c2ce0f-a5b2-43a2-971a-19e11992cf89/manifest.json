@@ -1,0 +1,798 @@
+{
+    "job_id": "65c2ce0f-a5b2-43a2-971a-19e11992cf89",
+    "file_count": 130,
+    "encryption_algorithm": "AES-256-GCM",
+    "pendrive_output_path": "E:\\.gateway_output",
+    "gateway_info": {},
+    "files": {
+        "E:\\commsys2.slx": {
+            "encrypted_blob_name": "6d032f3423eb96845392bbc42f34ad066edbea72ec08f2d44826752385c79de2",
+            "sha256_encrypted": "c9dfa406d23ff5588a58b1327cf9d386ae441f5a911a3bfd99d233fb038cbe4f",
+            "nonce": "b1599274fa92e02461afef95",
+            "tag": "9df16aceac086b745a2087ee2c08719c"
+        },
+        "E:\\comsys1.txt": {
+            "encrypted_blob_name": "291d140c3248c9c49358be022d05d2b7733960459c04ca1483653252f4914973",
+            "sha256_encrypted": "1b0f0f320e8fd8cd7b485c78227cc50cb1263a59afdf275c44935f9d00b5461e",
+            "nonce": "857b65c394587825d73f5c01",
+            "tag": "4fdab54329b0dc8007e94d4180df48ec"
+        },
+        "E:\\desktop.ini": {
+            "encrypted_blob_name": "6760d57fad2ca7673822ac6a7d88c9576aba75dd67adfb907153f9e9944e6a47",
+            "sha256_encrypted": "5183756bbfd9ab304f6060330ef2a49bb0e779587ee7544df827e375fa38fd22",
+            "nonce": "a1bea7d5998ee6769c56bf03",
+            "tag": "f352c9c9534ec9de051d86f9c6f1b19a"
+        },
+        "E:\\hello\\bark_results.csv": {
+            "encrypted_blob_name": "b91adb62c5233df0fd8c2d820162b2899e8525ac413e81e87debe7dd647948ba",
+            "sha256_encrypted": "9f3060f8bad73ce463c55e64b1f04c7e10cc1c29e8b4fd44765f441d5a72b9dd",
+            "nonce": "b5d59a80a793d2d5b3d6f958",
+            "tag": "1f43dc0f65a9dfbc510315103e38dc50"
+        },
+        "E:\\hello\\hello world.txt": {
+            "encrypted_blob_name": "d25358e024e03e645d70268011241c81b6659298b4f2d5ec0f7bf8aa54a5a11b",
+            "sha256_encrypted": "a58fea48200eeade22860b767b7f771cd1f359a78f08ef653ab432c8dd405d11",
+            "nonce": "98d6cf0fa38595db471ba2ae",
+            "tag": "4887573bc58ee50dfbc7d99aaaa904b4"
+        },
+        "E:\\System Volume Information\\IndexerVolumeGuid": {
+            "encrypted_blob_name": "f181416c6fa1f4c73314f43c1e3b3928911f4377ba25091139b870b791e428a5",
+            "sha256_encrypted": "b7b4e9b601b99774cea4d1ef8dfb4e7fa879e0b8965d4f66b87bc61c51b0317d",
+            "nonce": "695b0390b2d271b3349eb2b8",
+            "tag": "1df53415b601ad13fbd33bc55c75636b"
+        },
+        "E:\\System Volume Information\\WPSettings.dat": {
+            "encrypted_blob_name": "b5373ddf18960cf0bdd52dd3ca9a192d4ec21531b7a72c3c2b5ffd3dc0448c3d",
+            "sha256_encrypted": "43f42d75f997d5b83ec882fbb916ab545934e2b317dcf5a625e4f66b171fd389",
+            "nonce": "ef577c2a8ac66808d51d63bb",
+            "tag": "f1b897c9509e434bae3413fc545368f7"
+        },
+        "E:\\USB Drive\\Advanced.enc": {
+            "encrypted_blob_name": "92da0fbfbe4beb5ba09764ebae95fa22c9d4ad5c495c508eca8bc0cbb029fd69",
+            "sha256_encrypted": "e8451abd44cc7d213739a0ee3b7956a845e09fdb0d92057d791ac0d7b919cf5d",
+            "nonce": "9030f81a1de47f0e89f2b671",
+            "tag": "832fb767e511f3c4344ecc59d23e4dd4"
+        },
+        "E:\\USB Drive\\Advanced.pdf": {
+            "encrypted_blob_name": "c0c335d08ea0fe5ed181a3f1ac954839cd3b40a02ac70a2bd4ef895391fb56d5",
+            "sha256_encrypted": "3ab9a302a0cbf779fa5525c494eb758aae2f19f302139e627376651fc7a01a8d",
+            "nonce": "6634f80570452b7a2a8594b0",
+            "tag": "1f0dd32c2bd8eee6ecb2a55cd6846988"
+        },
+        "E:\\USB Drive\\antiragging_form.enc": {
+            "encrypted_blob_name": "8905fbf219211530270c4934d6105eb11d7011e48327fd886fc49ca527c82561",
+            "sha256_encrypted": "860e716d90bbbdb4845a6bf53e49cff46d9359a52157c8aecd34339989f381b7",
+            "nonce": "dcc020f417f9b4df8cbf3e20",
+            "tag": "8dc291c6d77c31e4ae2355e8f9b1116f"
+        },
+        "E:\\USB Drive\\antiragging_form.pdf": {
+            "encrypted_blob_name": "d66390f0f407783bafb415380dcc9ea542c02cf4f612d2e775cc50b36ec4fc0c",
+            "sha256_encrypted": "92b2dcdd955a28a7f260bc177e9e13e507e37f4c96d06478de9dc2455485ab2d",
+            "nonce": "153f4144f1c99a4cd5b49006",
+            "tag": "1d16151970b2a045da1c1ee6577198b5"
+        },
+        "E:\\USB Drive\\desktop.ini": {
+            "encrypted_blob_name": "deb82140f4910abd909e2b76673ddaac8c627b30c643148969b0330e4361eaf8",
+            "sha256_encrypted": "6a0637395ea125449e834b3011fc67a44ce3cbefb2e005ca27fa766b9afe3b29",
+            "nonce": "df0430551ef588a48b83e3c6",
+            "tag": "3cd6baed4e74c06180051d74186df97a"
+        },
+        "E:\\USB Drive\\Dev\\Admission picture .enc": {
+            "encrypted_blob_name": "4e945ceea16d6a9fb3bcbbd559ca8976f175d7d1aef14e25f0de862657358717",
+            "sha256_encrypted": "19747d462563a63217ae121c130660442bfebf111269c26c8cb989944b5ff3b3",
+            "nonce": "2e0d90d0c26e3d44ce0c0afa",
+            "tag": "e825de5ce7d9c28f4d5bccac64543608"
+        },
+        "E:\\USB Drive\\Dev\\Admission picture .png": {
+            "encrypted_blob_name": "f2328cd8fd96901c602a84cbbf74a84f8753b96ab38ae4c4b6c7c07a6b474776",
+            "sha256_encrypted": "d6145b034d0ddeb035ba794fd7e127eef3a4aa8c2090fde4517479c42d726b8c",
+            "nonce": "5766daee1ae865199327988e",
+            "tag": "3e9299cd54dddf18979d36fa8a43d56a"
+        },
+        "E:\\USB Drive\\Dev\\antiragging_form.enc": {
+            "encrypted_blob_name": "49d41ebf375e755fea28486a6f93b21c84a3752b70edbfcc41a79512def6552f",
+            "sha256_encrypted": "5eedf51e9dc13dfb33118660ee5d17f639096d7f82c17be5457831d89eb4b296",
+            "nonce": "a46e1c5c75505aef872584bf",
+            "tag": "ba790cc15db7793285aa160563f4e628"
+        },
+        "E:\\USB Drive\\Dev\\antiragging_form.pdf": {
+            "encrypted_blob_name": "5bce5c2bc5721dff342db082ad14dfdf28325c3de4338833e20c176e17477750",
+            "sha256_encrypted": "113b273ca5e345354f343a04be80fcd4accab56811244dab4e86af68da82e978",
+            "nonce": "16f66a170e4716613e996e82",
+            "tag": "b653399ad7c2c1a282e7d10960576356"
+        },
+        "E:\\USB Drive\\Dev\\Dev picture with blue bg.enc": {
+            "encrypted_blob_name": "a4d46b7ab9d42188d2cd55dbea909040da587097bc7a86ff2c4b65fe5086996e",
+            "sha256_encrypted": "9e513f253567c28a4517198c40a67cc09e5fe3498167ce529e0af8e40356a441",
+            "nonce": "23afa4815811d8efd10459fc",
+            "tag": "bcbb0690f0961ce7c1b02ea34d3194b9"
+        },
+        "E:\\USB Drive\\Dev\\Dev picture with blue bg.jpg": {
+            "encrypted_blob_name": "18374c897ead6f3b52f2bb3559be695028b5ea550efb51b824b84635a49f8348",
+            "sha256_encrypted": "0bfb37f19d1cc361d4ea3ca779da5213ff58db288b14958afa952549374836f3",
+            "nonce": "728d8a8bf97e4e90f39bf72e",
+            "tag": "8a914e793a9d16122a5e7b1b1f39a074"
+        },
+        "E:\\USB Drive\\Dev\\Dev Picture with white bg.enc": {
+            "encrypted_blob_name": "c9a97a0dc74f284fe314649c3122949fd93497be19a2e1b76dacb9eff84443ac",
+            "sha256_encrypted": "e3ddff8cf877a993728bc3407d918324accd485764446c874ba8f089cfc13eb4",
+            "nonce": "56ce58d4cb3eee880e19830d",
+            "tag": "9e4934871ebc7879b814bbb812244ad3"
+        },
+        "E:\\USB Drive\\Dev\\Dev Picture with white bg.jpg": {
+            "encrypted_blob_name": "d5f61b2abb3fa29d5d848c09c519e01d5eb1617ccd66d54b2fb34dde68d85c39",
+            "sha256_encrypted": "26b0f439cd148b7ccfdd0c4b438c766d14f9e090897beca61ccbf584c6edea1f",
+            "nonce": "99df0f5ec1847c7a49ff866f",
+            "tag": "74b245d3500affd5d239fd431b629c42"
+        },
+        "E:\\USB Drive\\Dev\\OfferletterIter1.enc": {
+            "encrypted_blob_name": "8898c9da28a656772e324c111b46619ac492f2ba6420fbbac6404029e980381f",
+            "sha256_encrypted": "ab89576f54d315956bac1d3f55891f7d020a9801bc51b4423c0162a194b3e7ca",
+            "nonce": "09b04a3fb150af0a1da70822",
+            "tag": "d20115a9f70efaaad3434bdd1bab5bc9"
+        },
+        "E:\\USB Drive\\Dev\\OfferletterIter1.pdf": {
+            "encrypted_blob_name": "d38a1d8738101dec1fbdc2416fff1f9a36b0c6251b2e488d66fd1e69b088164c",
+            "sha256_encrypted": "58037fe568041483ef9a0e4ff15f55c6205426d7ecb1db453dbcb09f7d7bbb0a",
+            "nonce": "cf32d37aaa3ac00d32d33579",
+            "tag": "b9f5d644d6b5ae8a122145466a43c4ae"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00001.enc": {
+            "encrypted_blob_name": "569814441d1b32dbeefa328cb475283628514b60c20c3ae032357c8e2af16733",
+            "sha256_encrypted": "17b01e24102f8c2329a4e9f508e1358a76011a3835695d127bf862231b5c360c",
+            "nonce": "62409cc1c28fa771b3c9e629",
+            "tag": "95666b22b828d42b8d79b824b60bc43c"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00001.JPG": {
+            "encrypted_blob_name": "1d64643abfd9314e30793a95024360123b1e63d6ca2e5c615618ed24db331487",
+            "sha256_encrypted": "4e5b111d72bddb9c748f29a83efcfef438a6d8e96617cf5185f527b9ae487824",
+            "nonce": "5328ef60ea9cbe8495848106",
+            "tag": "54ba002065a23d45b50364a050c78c36"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00002.enc": {
+            "encrypted_blob_name": "898aaacccddd539e636b779ce6c103a995e8e433c246c352ad6c4c592cbc55f2",
+            "sha256_encrypted": "4c2d9d67fe2c344946a85d32528d4ef428cfcaab79734f81d23c2e7833dc56d2",
+            "nonce": "ab517de4ed3d6587b14b7401",
+            "tag": "fa2a2aebd331fa774aa99fb55f010bee"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00002.JPG": {
+            "encrypted_blob_name": "5641a062848e72af6bd7c877171d759b26189679ac1399f4eb5408728d543128",
+            "sha256_encrypted": "134c6c9e3fb66b74794969641b6e07834161303b36a3cc3dcd8f0261b48bf726",
+            "nonce": "22719b68c9166a9b422e356d",
+            "tag": "65ad05f1aa47c1d8f5a42473f70d8bc8"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00003.enc": {
+            "encrypted_blob_name": "4b4677184efd65bb903aca6dca45df4448687fcaf7e53a109d8f8835d7c59b3e",
+            "sha256_encrypted": "a4f587998ee2cbe8094cf0df1aee350fe87abba7eaecfb0a2b427847296ad18d",
+            "nonce": "c1a30ef71713659a8168dd76",
+            "tag": "c6dd4f2c6d6f78f04b6e4bd88d33e45d"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00003.JPG": {
+            "encrypted_blob_name": "9f3522484bad14f51a2e89c7d07018e10eeee13eb549a6bc632462a80f86ff4a",
+            "sha256_encrypted": "147e9924cb9e14fbcc5583ea0fb7414624d06899af88caf9c9a7b90b74660e01",
+            "nonce": "b9aaafbdb336607f95d96874",
+            "tag": "4f766572207fa734d3f1bba9bdd21e5f"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00004.enc": {
+            "encrypted_blob_name": "dbb23bc0aacdb3844828fecebb79eefb61472f254576034fa52a1d0709398559",
+            "sha256_encrypted": "290c8d99adee03b0f2836bc59ed2c81a41608a82f0adea90ff91f50e8e9c7f0b",
+            "nonce": "b98e31747c0e16539286b6ce",
+            "tag": "1a94d94ac66e1f3df1b23d3e17498064"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00004.JPG": {
+            "encrypted_blob_name": "24d663856767aa9dc9c864f287d96f2f5494056440eb3cc5c8f2bb8cfd31fd8f",
+            "sha256_encrypted": "8d7dcb279cf5d439e09ac91259c602a4195ff017b43982ad70f1fe928ab557d3",
+            "nonce": "1e9b1311fbd4be482909f5cd",
+            "tag": "9d8a1ad83155b779d44b593a686502d7"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00005.enc": {
+            "encrypted_blob_name": "18235a8d5592eca4c888629004cc438a6292247c0894c444562ccca0431c4b48",
+            "sha256_encrypted": "775f9acc5b9b1051eefb394665e6c58033974414a883753c7df22d61dcb74ac8",
+            "nonce": "d0b6984033431d49f047372a",
+            "tag": "3a5743450091efd63bd324399c58067e"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00005.JPG": {
+            "encrypted_blob_name": "6ac9c9082f59a508579bfcf8ef00b0c7a7169084effb126ba8f9d63092ed5479",
+            "sha256_encrypted": "971df05797da82a51800b5a89d23aa9fcfa4e253bb12a530ec501429f711ad4f",
+            "nonce": "5052e6ecfbf387be49f49523",
+            "tag": "e94cefdb03b839e4f4ce8b3ef82f534a"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00006.enc": {
+            "encrypted_blob_name": "5490cad8f04d9d7f330347063904365b2cba408356d844eb93fadb4bc68d68b3",
+            "sha256_encrypted": "2b998654ad4c89a092af661f0774e9a89f17bbd6acbf3458d6bb1e25e023524a",
+            "nonce": "d407163f1a96b9a33027debf",
+            "tag": "4c8dde6e68c6a04dd667f7c1976ccda2"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00006.JPG": {
+            "encrypted_blob_name": "cde901f15ad536b4639923cfd646735a968c8641d9ff19d53bae40ade0e4cb2e",
+            "sha256_encrypted": "8f6c7765d4f301bd312c3d075a461230e7671f26a8a9b67b15b5e86d1f1e9cda",
+            "nonce": "7c21861f8dd4a1e8b96295de",
+            "tag": "cee3e8e96bec1452c4136c45d69901d7"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00007.enc": {
+            "encrypted_blob_name": "66ca4bcb173255c44ee3ed2b6b0c0e05077f3488ae54c40fb2a8fa291d73b347",
+            "sha256_encrypted": "1a9f06b32a7c0c508cce0a58f0080131bcb1b4c0dc74969ced6de1ec15c25e0d",
+            "nonce": "62b253dd84bcbbe05e7a1868",
+            "tag": "78abc066c2faaa2fe3338e0282cf3410"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00007.JPG": {
+            "encrypted_blob_name": "f92f6002a53063d838512b0d6c0a8c7927957a2622fdacbd56f51d5a9072414f",
+            "sha256_encrypted": "6130bc65aa4b0b19e51769f9255f7029b619a73a777c95b2ed28004928894e2d",
+            "nonce": "d6c8e6d0c30c6f8201af7dd9",
+            "tag": "175175f1af2bf07471e3834b6fe7d372"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00008.enc": {
+            "encrypted_blob_name": "abc46389343ca33bf61eae0b82c2eba25b29120ed8d4e30f719c6c4b9834b676",
+            "sha256_encrypted": "f61d24e5a566325f4cf04902dcafd1ef5d645ee556d907acdc59b48469da5759",
+            "nonce": "a6a5c435b2bed1554db2cb2e",
+            "tag": "93240695dd3c2886a2c1e3473c75fed3"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00008.JPG": {
+            "encrypted_blob_name": "76fcb3fee628c786855056658895ac0a3824cadf0e519095ca592783371a24f6",
+            "sha256_encrypted": "b4f28ca017eceba78fc4d6c9dfb78ccd4d0867029892e781838df2b54d92709d",
+            "nonce": "a377b11e3034515a0070c40f",
+            "tag": "fe28ed7051380ca70b9b425df41cfe09"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00009.enc": {
+            "encrypted_blob_name": "77a1029f05dbf2308967a2177f14ed98a91d9f070f39ec9d4ea88daf6b99ccc0",
+            "sha256_encrypted": "14fc77a01a018dd0138c1b3d07ef0e5c19cc743ea74b8ef46568324253ad9942",
+            "nonce": "f27d8c0ef1deabc21bbdbd5f",
+            "tag": "b8608649de43fc8ee981f968295fc6d8"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00009.JPG": {
+            "encrypted_blob_name": "7d974c746727f5b17156b866833e98974cad96fa9c0b5095bf88a06c1b3f3181",
+            "sha256_encrypted": "0673e721ee3689d18f82c19ccd4f547ba6efdcfb35e94ecf0c6c45128c4a60ef",
+            "nonce": "174aa953db29f2748cc76685",
+            "tag": "180341a11bfca553da2a1623d61ffe8d"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00010.enc": {
+            "encrypted_blob_name": "38c5d90a8af7799ed07b56c3f16a00f115ed375675cf64f4f909a1a93c1755ec",
+            "sha256_encrypted": "37aeddd6db76df9bd9ecde7d249d4e3dacb070351eef9a5be307d78ab536f42f",
+            "nonce": "8c9791a67ff4089f3b3be960",
+            "tag": "d997621095e8364dbfae73cf8f553145"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00010.JPG": {
+            "encrypted_blob_name": "9e7a4d89f24f5da25aa546cfe41806f222c87e267805c878d112a167051a7484",
+            "sha256_encrypted": "9ac0d1e7dd3e4ed69b7687f2695e99382faaf3c23f6d59cb7ae5d19515aa3449",
+            "nonce": "f178b60b1d0fa7dbb323d0e3",
+            "tag": "c3a81ca7aeef23f4e42caaf57652f30b"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00011.enc": {
+            "encrypted_blob_name": "4df0fe10322a962d3e34f5d13bc20cc14b2a8427672b2824d69af2d0db80ab35",
+            "sha256_encrypted": "565143f2c1f53ff855adee8c52bf79fae6173c28d209555501e23b87007fa484",
+            "nonce": "5e342cb601a46577a0dc05a9",
+            "tag": "1aeb2640e76553fabe94927ccc22190a"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00011.JPG": {
+            "encrypted_blob_name": "0a3eaae45a0ef08550cf9df4d8a54ddac7a008663b240b791ba8f8481b8f68d3",
+            "sha256_encrypted": "b05bb296d9f1fbba9d2293c163cd960896bdf2f4cd9537d5f9392927a0a84038",
+            "nonce": "c5d4afe9dfb3413e8e3857f5",
+            "tag": "7d009b8d1d6dde33dd158aae2bbffd7a"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00012.enc": {
+            "encrypted_blob_name": "939a298f55d75a4848acdd73ae91b4b35dd9238fd38b39c22540dcf01afc23d1",
+            "sha256_encrypted": "d7806572f422b85c47a83ebe633fba85c0ae348f37e1750378fc7e0eb4c191a4",
+            "nonce": "a7f6835202ccbc4659fdd434",
+            "tag": "cbe5e613454949f4dade2de740f594ef"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00012.JPG": {
+            "encrypted_blob_name": "017c731a54365546fad214b6d27ec4ad3fa39ea3290bb45fd68903c26f69c2e2",
+            "sha256_encrypted": "c43f0640972b6fc52d4ab44922e3facfd28867489c3410028e0c901f7a209586",
+            "nonce": "115f0cd3e71501db08b8c0af",
+            "tag": "5efd2d62016d5c73fc5bfc599e71282a"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00013.enc": {
+            "encrypted_blob_name": "c2c4a37a5ef5365a941e52d41a85f2cb0e8fa69be1cc1a3b1456813dbe5358bd",
+            "sha256_encrypted": "db896c3081fc4a69a33923077bf9ff3a39c42ada7c3952f019197ed297f0887e",
+            "nonce": "47aca7e847e6669185e02165",
+            "tag": "95f25ab999e9d4f5e44ddabdf5ed2275"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00013.JPG": {
+            "encrypted_blob_name": "318e581931dd1634507443b9ea524886b8b125403edbc01d99da522066cd9586",
+            "sha256_encrypted": "87e1dd92f27ed0ebd62b22c6c475e9e9823be1267a892a1a723e5905a6ac696b",
+            "nonce": "80408211bdff2cd5e6deee79",
+            "tag": "e35732e341f1e5553beb36a1ecf344af"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00014.enc": {
+            "encrypted_blob_name": "5e7385e81e3a099a439c9f7cf1c3d9ddc8eacb271729d416313289007899a289",
+            "sha256_encrypted": "83ac7ec07caafbd73338a05ea4b68b7d4e0efa291bf522aee955f3cb28320e2e",
+            "nonce": "9663394d4984f8ba7fcaaac0",
+            "tag": "d0bdcd68ac1158b1a00436b8c209d7b3"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00014.JPG": {
+            "encrypted_blob_name": "ccdef1ab50ff8b978e6da2d7d1860d8fd2e1511a453f29f49eafe3534a2ec2d5",
+            "sha256_encrypted": "94eaadf25fb2f79ddc14b4c51bf4c3fecd2f56bf5a60305747cf9b33407c1a0f",
+            "nonce": "2b622b2cf3341b1d886959a5",
+            "tag": "6ed39964218886ab63c87514b639c115"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00015.enc": {
+            "encrypted_blob_name": "852807e216cfee79112e5e1aeebb70af8f4fa6c3923ee63ae832af80694e299e",
+            "sha256_encrypted": "7ef0263b7f76bb763e045d2cbab2e73cf90cac1fbae2d6db41c6747d38100c2c",
+            "nonce": "e6f4140fe85920c027921f89",
+            "tag": "82498f45c46381504da46e10c094c73a"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00015.JPG": {
+            "encrypted_blob_name": "adb4843786a8b9a2a7ba7aa259aaa4f24f8e90659cccabb9e409faa7fb9f5d7a",
+            "sha256_encrypted": "379552cb31a4119461d2da5135797d899d9613ba11a09808777e7e18dcdac2a3",
+            "nonce": "3435c7c7d6ea1ad141b6aeb9",
+            "tag": "0c8c2a805fb9d32a695609ce98580320"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00016.enc": {
+            "encrypted_blob_name": "fb2c90c8434257200ef3861c25375e49372ab47fcfa62adb2170dfd1ccbdc8f0",
+            "sha256_encrypted": "91bb75dea348998a98fb4638a504cf1a7fd4a90bddff63511988a8c07cabac90",
+            "nonce": "f5d9db1c23c794ba6482d011",
+            "tag": "667ea3581269349978a0b62b58c3123f"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00016.JPG": {
+            "encrypted_blob_name": "a95414796d315582054800195b52bfb8f9f7eac8707e78d6ab2050fb76106a57",
+            "sha256_encrypted": "5db0f338b3d6070855651d14d00fc32a4ade58a44112463232651c885883f373",
+            "nonce": "a7eaf3613e3dca6fc3c44ddd",
+            "tag": "f4920100b03e3a10527a178db51810ad"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00017.enc": {
+            "encrypted_blob_name": "615a7b5678feb01aba1e669062ab7c8ed0f766a025d98748e1eb8435dfbe8e96",
+            "sha256_encrypted": "0427cc40cffe336bb8db313b8adbcfd43f5984bbc7e47ddf511ca32e487ce1fb",
+            "nonce": "1053b0260173a6e684941cb7",
+            "tag": "dfff78c7a07bf13c37036027b4cade74"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00017.JPG": {
+            "encrypted_blob_name": "4f7d57aaeb1309870aec82b2aeb3d249cfaaa8ac129537e38d2e28dbd2510cb8",
+            "sha256_encrypted": "6108135e195b2ec85741b00baebb3f8a1feed52777b7e65f320373470761e5d0",
+            "nonce": "a30e33d370f9fc55a2af0ace",
+            "tag": "9f5f9555f774bfd471816337183f5f29"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00018.enc": {
+            "encrypted_blob_name": "23e5e1c5cadee69b93566afd6569674b9e72bc373f0661ce42d2fa1642fd09ec",
+            "sha256_encrypted": "2b869839325e62aa2110e5ebf770251eb347c3874a8470d7b30b7cfdb90e2387",
+            "nonce": "08c5a3b8676435b6353c028f",
+            "tag": "cf7348b6570721e71a47aa75819f42ce"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00018.JPG": {
+            "encrypted_blob_name": "49ddc5cddf9b2073ca5f536a298cb322b4a536e8805d98a621f9ba3d400c4577",
+            "sha256_encrypted": "9086381a75c47db3543a56fcf719d13d93fb1aec671de2a944d2f061221d9c63",
+            "nonce": "a639473a5a96caa8fc2b83dd",
+            "tag": "ea873e8a71189541a4ed6537e9f28530"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00019.enc": {
+            "encrypted_blob_name": "0715ca9a5c0b31f1e9eded56ced995fa670051dcac52c01e409371d9919be530",
+            "sha256_encrypted": "234c845aff8435114c8810d5bd9934f00b9efbe9ca3f3203ff50ccbdaa2f01d4",
+            "nonce": "e61e282e880d96b0628c7725",
+            "tag": "d843563823c3f1fc8a4cc1c9af98ffa9"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00019.JPG": {
+            "encrypted_blob_name": "744211377790330cc23ee9621bf47ed112a79ed65220b33ea631971c97e37f29",
+            "sha256_encrypted": "bfd6185cf63ddf4f820ebeab44c39b46faf30bb27e40de9c97e1916e332186b7",
+            "nonce": "77daa940fef46945a99aafc7",
+            "tag": "c61d00b1c7dfdb3fc44eff6465d897b1"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00020.enc": {
+            "encrypted_blob_name": "8b10083413523ac964d9a669c0cc8f0b2fd4962802c50a785846966fe9240146",
+            "sha256_encrypted": "976b6fa37441b621caf266ead3dc286e3d31eb575cf58a579d1abbbbc18ab8b2",
+            "nonce": "41515c59c324c8cb98b0d824",
+            "tag": "84a507e9ab7f2cfe2cc7716b1547a699"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00020.JPG": {
+            "encrypted_blob_name": "4a2e568cb1fc6260d8b7fc4f837f4d96d20eb97e20b14bd5da07e5f580b96d09",
+            "sha256_encrypted": "0cf68f2337278ff2ef1a8db86049e71a3a64908b2b9c3e3d21c7cbae4a66fb86",
+            "nonce": "6a387a275ea335800ed23ef7",
+            "tag": "256533ed52a91090f5ec019d01db9bfa"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00021.enc": {
+            "encrypted_blob_name": "f43cfd05a76fdfa442ac13605a3c890cc9a32ba720330ad9a1f67f84483d3021",
+            "sha256_encrypted": "186e65659634490a01cea4c3da06a9f7337e6890bc139f0f26cbc32dc500f23e",
+            "nonce": "757492fa0b8f468de07bafc0",
+            "tag": "d83d6b7d189040b39f5e419be3911207"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00021.JPG": {
+            "encrypted_blob_name": "4a83283ad9fa73f4b5d0edbdbd07c38fefa6c272ffe3af8db79feb36fde6c927",
+            "sha256_encrypted": "0ecdc6d89ca8850648b4cc90702632968d15e14d89ed4fa297995835ea47e320",
+            "nonce": "3baf054b5bca7465223a3891",
+            "tag": "4e34d8667404f68947fdeeb59c782943"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00022.enc": {
+            "encrypted_blob_name": "81ed5f0a8898f53f71a8b4fd30e67ce02fbe44aa2492ff5ac785081ad352ddbc",
+            "sha256_encrypted": "4e8148f7d865d87e4bb9a46be209973d687a9854f2ca6c075d080b280089ae83",
+            "nonce": "333e7711e94877f1b79d6460",
+            "tag": "b6a5f4b002904e6a975afb21c0026e81"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00022.JPG": {
+            "encrypted_blob_name": "ab265ed572ad0a5907e272eacea75b2f296a90dfe9f1946d034f749cab24a805",
+            "sha256_encrypted": "92a226124a84e6b5c9934363ecdafe3b094daa27cf20687c373bc939d0b3e37e",
+            "nonce": "dc0ccf0e342f8b0a602d1c8d",
+            "tag": "a8b966d3e9f692a6a80ebecb6193c41b"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00023.enc": {
+            "encrypted_blob_name": "01c68f6791a6b9d97d8614be3d514a0acbabb1d98fc20203521d131bc7c2416e",
+            "sha256_encrypted": "261096c43a8b39f2da5b206599fd260bb3d4342f974d2fc5651a2a39811a69bc",
+            "nonce": "083b77f369aba877a86ef731",
+            "tag": "e5d014d46309c40b6e2967fcfb7b7697"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00023.JPG": {
+            "encrypted_blob_name": "c8b51accb921c6881eaec6df4b25c11ed99052b6423b707de9b0d6829e6a986c",
+            "sha256_encrypted": "747b36f402d14f847373350c14242462739b5f07e8ac94308d6440a0e0569a6c",
+            "nonce": "87c65ef285124f7aa7bbd727",
+            "tag": "26ce235139c80c333a9365d6615c5e42"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00024.enc": {
+            "encrypted_blob_name": "6f6eff6d593d4253b4d88b880b57c36f294fdbd86b6c6f63ed995859b2070cd2",
+            "sha256_encrypted": "803da4778efee730739982f6ac0183343102e5a9b53f13710f8c0ae69670ec4d",
+            "nonce": "e17ce291d8994f9444def8f6",
+            "tag": "9eae30865f6d4e091f5e672fd6cb89da"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00024.JPG": {
+            "encrypted_blob_name": "779506086ac92a68abbcbda690472c9e9074b25e46e4a0ede0d4d47f7122f492",
+            "sha256_encrypted": "edcbd9f762173c901a5d4f1556143ae5a2652a2b8a9192b8d538853bf8895f5c",
+            "nonce": "e10993b10782cd5f0eb7a187",
+            "tag": "2334345fa5be88b5fb0e2611b01ae488"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00025.enc": {
+            "encrypted_blob_name": "cf3975de927feb2de6743f60216023316ee6c8ed13f0838bb0827d0923d20358",
+            "sha256_encrypted": "8c58c519df6064e9be4dd51f1a889f34839ad78177a7c57519d51d1dd49c195c",
+            "nonce": "bbf62f2f8f3207bdaa02814a",
+            "tag": "b3046859234860d6258ac5175b83d942"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00025.JPG": {
+            "encrypted_blob_name": "e010ddab90425607faaea06d27a6d7f8365b5c0acbd8686dd9ad5ef17436054b",
+            "sha256_encrypted": "e43db6db5d85f142b4b1be303579f8d67b63c229d07c99e989836f62b104364d",
+            "nonce": "f5e11efee1bbdd9f928dfb9a",
+            "tag": "14d2b148706e938fde54b63c7c77a8e5"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00026.enc": {
+            "encrypted_blob_name": "eceaf705f2ffc2ae295223fc40236afb946446abdad4b1207809f3c59de576b7",
+            "sha256_encrypted": "b7c17cf6c888ae3e18b6e9530207932269d51fbadc6f9105dd2e63311b9e7748",
+            "nonce": "1598c3c67a5385eea56baa45",
+            "tag": "49a853193e9a8cbfd93a754d911a1fd0"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00026.JPG": {
+            "encrypted_blob_name": "ec22e64b0960de5d1e4adb112ef86c6ccc34aaab2ed9c9d90cc30c15beaa5ff4",
+            "sha256_encrypted": "ef01b3073748816775e2301261e6d7bcad86deb959218e0fc8d76ccfc48cc6ba",
+            "nonce": "95e9bccfff3b787c7ef86953",
+            "tag": "b5f8d5834ef1da3da1bb1f7c8d54d8d4"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00027.enc": {
+            "encrypted_blob_name": "258f6cb9519fa11e9d1684162054e411792c41a02f907e920c25b086220da08b",
+            "sha256_encrypted": "e85360b7e757d94ef0f1e4db818d60ecd018a78923ce14c055ce5cc0ca0b40bc",
+            "nonce": "cdc89e013ea22da3f140c987",
+            "tag": "484747fdcb9b1d26b7ef2faf9db4fe9f"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00027.JPG": {
+            "encrypted_blob_name": "3626c1884d62f3bf2632f4698af552686a6432db80f93a6a747a8bf3d66a96a3",
+            "sha256_encrypted": "0abaf79c610494c587a670846f9cada5835e9722465a75f4a7a0c02a13257b77",
+            "nonce": "c5b0347dda3cd4f9e59a76b9",
+            "tag": "72ffd39d079d06682c26af4461b6dccb"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00028.enc": {
+            "encrypted_blob_name": "d55b29d4d5999c740420d89b018985d15eb6adadfcd2a440585d85b3524e4b10",
+            "sha256_encrypted": "4a8670f8707456d1252880d966e29d8c0f2f5f33deec027f09ca6ba3ec13a9e6",
+            "nonce": "7ef60850cf19519edde23e13",
+            "tag": "4d839051cadf0ba1451f749d6f6371d1"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00028.JPG": {
+            "encrypted_blob_name": "cab74735564ff4f921827c3c22f1bfc96c6a500eca5f622f8047e875e1c103d5",
+            "sha256_encrypted": "e1174402c142b3b007c1a9116d6c3cde7c10e243e452a5f01e79b909e8d0708b",
+            "nonce": "a81c58678e3c9aaaba5edfec",
+            "tag": "d697491c6441fa82dd4d7274c61582d3"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00029.enc": {
+            "encrypted_blob_name": "1fc30f0be963d830a4fc680baa8f1c6538f560eb267f20202240ca4202a6a0ee",
+            "sha256_encrypted": "833cd3e9f90b986f115f79668bd4db0a0fcb71e603f0f11744aa0cf5c581aea9",
+            "nonce": "e8f1b5cc38708a73adc5b6e7",
+            "tag": "246547ddd3f31e8228f95d8ea86d080e"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00029.JPG": {
+            "encrypted_blob_name": "96bffec97cae1b086a73340452574044647c4b11c32fef4820a5f4c5a17b6e4c",
+            "sha256_encrypted": "f200182ff4794d7254e56b89c9996eb0cbd95133cf94e3430b8f42986e77527e",
+            "nonce": "f2396d54120c0c5ff9fb9522",
+            "tag": "6743cb35ee4064e11cec2a449535ef11"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00030.enc": {
+            "encrypted_blob_name": "3de77ec7043631ad7bf4b6de7dab0f79236aa55341adc190e8990cb6ab0deacb",
+            "sha256_encrypted": "df97a2fda5324252f16c7eb99db43726c6da8ecf81658cbbc774fdb32a2a615f",
+            "nonce": "61b947358bd539ae7ae0208b",
+            "tag": "f09b74aef61652d62b80107fc2c11113"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00030.JPG": {
+            "encrypted_blob_name": "47df33663c984903dd2568df493018eed5a4e9112b0df1087268c1668bc7d107",
+            "sha256_encrypted": "248436300ab539df8e0162021c778e073bbb91d1f992954d2b60a7e238c24ba4",
+            "nonce": "3a0d75d2e83c98a56bb16faf",
+            "tag": "77532b8aa62db58dd8ace6c671f26a5b"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00031.enc": {
+            "encrypted_blob_name": "77f2eeaa0db9d8937b73f304a5e4bf79221e9a7f42f827798d2be03710916f8c",
+            "sha256_encrypted": "5c7fc9e6a012b8f38429187e755c0ab4e2f0c1c0e96aae8fd43a22a1ef473c4e",
+            "nonce": "f636fc4570147fa78bbdb139",
+            "tag": "e1a976f4c08ab612693c75d750d2fb44"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00031.JPG": {
+            "encrypted_blob_name": "313647e85ad5d511b5bc496c3164f5ad6c1569520cd6594d186b43739d5006a5",
+            "sha256_encrypted": "f850d5207491ec80dcaa64563836a15814678224eee7f8b59f9f2298eecffd42",
+            "nonce": "203fe4aec6c5d26e15193ad0",
+            "tag": "6ef23319772206247ff562161030bdd7"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00032.enc": {
+            "encrypted_blob_name": "1d73a05189f07f56934b9a9d33e45f84b7b71386f96123a7c62878e718b81809",
+            "sha256_encrypted": "92ccb625a148bd87b175aa425f7f9245682fa7bab1f8c75d218f16e1599658ed",
+            "nonce": "6be4ca62dc664ed1aa4048a4",
+            "tag": "751529842e92b2a3b0753fd25e0276fa"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00032.JPG": {
+            "encrypted_blob_name": "de1583327f9dd8f7ec41400dcd9159b424c9ae3dc20c7eb31d8c222ace5a27f4",
+            "sha256_encrypted": "e8ff4faf8b6475d29839bddcc53af902df59f5129da417e333901fe18584b01c",
+            "nonce": "00f85ff782cf62e3541de178",
+            "tag": "908c8b95ec5f80a5cdd2048ada928970"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00033.enc": {
+            "encrypted_blob_name": "5400c4ba1b655c71eda939b9461267243fed1c9318d6a1fb20aa6de9688ed3c3",
+            "sha256_encrypted": "5e3e684521cc373a7170cd1ef48a15e612c52dff1a63630029941f6c230d57f5",
+            "nonce": "0ef216fdd80ffb9ba20033ba",
+            "tag": "eb74661ae5217e3a4bf4b599922183d5"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00033.JPG": {
+            "encrypted_blob_name": "a6d06fbb11389d32089a5d91eb335bebd93656847219a1bd1fde347852399f7c",
+            "sha256_encrypted": "bad61ebabca7531775849ed4993e7897c00d2636116c6a2d760112ae917c6824",
+            "nonce": "140ca5337595565e74f97aec",
+            "tag": "d89adea1e2943712ffa72ad128edad7b"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00034.enc": {
+            "encrypted_blob_name": "d001a87aede18058dbdfcb8a289a0c83b5abebcc15e0322edfb80eb99640358d",
+            "sha256_encrypted": "26de6aa7cdb1c4ff79ee37d993a226139ea3527372a0880e247bed97d2876773",
+            "nonce": "4f918a43f83beeb3b7f2e772",
+            "tag": "72923da16880b4ce1e212663bd338e29"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00034.JPG": {
+            "encrypted_blob_name": "6386427ddc13b411bcd9f9d02955780cde004d0a5b05f34dc6b3045991ba673a",
+            "sha256_encrypted": "7cb44098c22e8b12375abda7dcb4c259eac3a1fc63f46edb6aec6f01ea36756d",
+            "nonce": "8be6826d850e6fcd931e996e",
+            "tag": "a7bb36fece6d256618ba48acc72c90dc"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00035.JPG": {
+            "encrypted_blob_name": "2f5f6b772e5e3573096a3611eeb32491c3db074da6ef7b133321a4bb5daba8cf",
+            "sha256_encrypted": "58f831d58fd4dbc268b35f67d0828d52e980dabf97e2e7286c199d54c277fb36",
+            "nonce": "cbb9c3dc2cda90e2c92d3347",
+            "tag": "b06c1d2ecc7436b8996938e3f5304946"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00036.JPG": {
+            "encrypted_blob_name": "22b5460095d002ba660eec86a6028e0e1adc690cfc6d2a18a17db26e224cb684",
+            "sha256_encrypted": "153b7962aff6b1093f79b47a72359876a1bccc33804f1a438738971cd67900e9",
+            "nonce": "9c9d8f65eb67645ae4b963c8",
+            "tag": "365eef263e56660999688584796d0bd9"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00037.JPG": {
+            "encrypted_blob_name": "8a8da0c55c6de12970aa39b78b48d0390fdab16fa3ff9dd15c36932e7e0c1ebb",
+            "sha256_encrypted": "18568ec80c79cc34e602f87ff1339b05688013858620a1e6ad822b27dcc538e1",
+            "nonce": "db94dc19a291067a53f1c12d",
+            "tag": "d9833a0e0b6d3f5566a2af15df09d33d"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00038.JPG": {
+            "encrypted_blob_name": "488a8d20352d9410ce3f45b493385da492437cafc2a23a6997680d5434838ae9",
+            "sha256_encrypted": "f23c6a5214bde22863e187f6f4bcb7c71ed6e1c0a2e8bf60ac16ed7e8c140a23",
+            "nonce": "7b1cfd49377c2cac5a26240e",
+            "tag": "8f1f2220958c1538eb342d04b365c013"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00039.JPG": {
+            "encrypted_blob_name": "54bf559ef6e72b0bbaaab84b9f15c1d952136763b873b1d9471978aef0aa5617",
+            "sha256_encrypted": "323eb032d1dda6e492566b58b3e7e95b22e30dab5e6efa7a8f975d1f25d499ef",
+            "nonce": "61cad28e89fbabbbe883d418",
+            "tag": "f83c207d3ac557fae6bdf56983645c24"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00040.JPG": {
+            "encrypted_blob_name": "133d313aa208c751ab3e03f2f38fbb785230441259c0731e931f9ba87d175bf0",
+            "sha256_encrypted": "848a4c7d02171cc3bdeae8ec69aa37c2e50ebdc64c9c190a4a320689be8edd6c",
+            "nonce": "992681b8a8504bfda840c5e8",
+            "tag": "a264c309d7cd834435707688865803a2"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00041.JPG": {
+            "encrypted_blob_name": "a6e3fcb7176f9474fe3b27376f49e3459f8fef0dbf84cd5235b06fdd630ce8b9",
+            "sha256_encrypted": "691ad0fa8b9daed5e5cfcd0f708e54ebb29a50abb8193030d05285032b14d7c6",
+            "nonce": "8d9db606d221f2cff966f840",
+            "tag": "111c5b67be08a315b4edee460bacd67f"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00042.JPG": {
+            "encrypted_blob_name": "20b85648190a7a092f477ee1bbc4ede59ea093451365eba970aa07e60d393adc",
+            "sha256_encrypted": "6af83873f6e1632734ac178bdf938c08946c581253d2f63f02af9a6915980482",
+            "nonce": "dcc071b29f583b7370405385",
+            "tag": "aa8162ab4e05b953d4daf82e2e2b82e2"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00043.JPG": {
+            "encrypted_blob_name": "5150561f1f3d3d3115a8f4bcc5108e41cb7726ce9c2e2542cd9302700d658768",
+            "sha256_encrypted": "ffecc3cd44d2b41b1e985de90420eeaad3bcfe5c12e5bf2134682f1c01e2edfb",
+            "nonce": "7a8c363870be2be508b9faeb",
+            "tag": "f666b73d9b46258e4875062fb94ee53b"
+        },
+        "E:\\USB Drive\\Dev\\pics\\DSC00044.JPG": {
+            "encrypted_blob_name": "822b5fcfc4ae945bf8b93a0169a0a53fd36c9ead981743ecece6d3cc4cba6fc4",
+            "sha256_encrypted": "12a132cb5acfc7f03798c22620bbc27669d08da046c6bce1699825ec2247e7ac",
+            "nonce": "126a3da231e185af869b4e00",
+            "tag": "0a7431be895b7c5c571232ea88237f50"
+        },
+        "E:\\USB Drive\\Lease Draft - G30 Ocus Quantum (1).doc": {
+            "encrypted_blob_name": "5776c4c9f9c23ec5322fc8c85a6b2f59864527ce88df56b71e4204051cd06a64",
+            "sha256_encrypted": "94d2b59eabc5d942c7d3de3260e222da3041a355d6af271e8eeff7379231e9f7",
+            "nonce": "53a9691d8292cb18122e2b5b",
+            "tag": "32f4c300e43de85e62dc5e372fb4eb7d"
+        },
+        "E:\\USB Drive\\Lease Draft - G30 Ocus Quantum (1).enc": {
+            "encrypted_blob_name": "78548e8291bbd18b2ef833084076ab4787dc133151a0612edb1c86afc9bb242c",
+            "sha256_encrypted": "d13610b0b9a7e9572bd8c08d6a3c6a97f01f70aab2397311981dcd597ef41421",
+            "nonce": "f09fcc8b4095384ffb48cdff",
+            "tag": "b4ce99a4a37a0028d53243e11c07beae"
+        },
+        "E:\\USB Drive\\Medical (1).enc": {
+            "encrypted_blob_name": "de5efa597ee6e97debec952051d2a0b8481637f362372a2f90edc20f83eb7192",
+            "sha256_encrypted": "ec252ea3e21b90da97f47a3fc1817efc7118e9cfc83735c6cbc2cec711449bf4",
+            "nonce": "6b61f5dcc03c62957bf3f30f",
+            "tag": "20c26905179516ab4df056c3f28cbfdc"
+        },
+        "E:\\USB Drive\\Medical (1).pdf": {
+            "encrypted_blob_name": "6e3cdf1f39e0e9feb378118fd256aa5ad2007443c6fdfae341ccc2843560fcf3",
+            "sha256_encrypted": "112792a052575cd4896af0ce6c20d53d5b296fab7192bf5390f40c442e2c402d",
+            "nonce": "a117d5b6052eb616b38ef81d",
+            "tag": "f62bd5e906ecbe04beb5ae2db8a6b6b9"
+        },
+        "E:\\USB Drive\\Other\\Name_comp.enc": {
+            "encrypted_blob_name": "b2e704ac4bc501cf7e306b3b8ae01ecfea2b6840af6e7ce4015e47bbc36838a0",
+            "sha256_encrypted": "0e5ae10382f951f008f826b9ff7ce82555b8dc13eefba983b11eec8710a60d7f",
+            "nonce": "e6c7a0cc0c545bffeb542e19",
+            "tag": "f1e2231607498ae8b11355b8eb98f0b8"
+        },
+        "E:\\USB Drive\\Other\\Name_comp.pdf": {
+            "encrypted_blob_name": "b3feb713b2300dd714f4298b80e330df71edb454f5a9620d7606a069307fd17b",
+            "sha256_encrypted": "420ac42c57bebd5994414b55616a92367ae9d5a7e3362777bf13c54d42728957",
+            "nonce": "21336eced20efed55e71bef1",
+            "tag": "be09a138645b135d1ad22bff21d421da"
+        },
+        "E:\\USB Drive\\Other\\NS DL - NOC.docx": {
+            "encrypted_blob_name": "d6b59854f044d45d6ead7af6adfff158abacd21e838fb0c08f7db6b323a06109",
+            "sha256_encrypted": "d4f9bc5bf7e2553f3a1551fad2acf0ece25f3a2b157ee3df1d4b425caf9f98da",
+            "nonce": "6f92d6d5989cc0bba8036ca7",
+            "tag": "e5eef3a6f78ce078e111e12afe30c074"
+        },
+        "E:\\USB Drive\\Other\\NS DL - NOC.enc": {
+            "encrypted_blob_name": "298ecc1cfc4003111e77c82c6cbdd3570cc899c14aefe477693f183df35eba13",
+            "sha256_encrypted": "19485f178296a960ed1223c76c4f8d4482174ac75930c4de4aa3f017891621d1",
+            "nonce": "65a4153d510471c55982c150",
+            "tag": "70fcb47c61fa47f0a9f4f4cb93872dbf"
+        },
+        "E:\\USB Drive\\Other\\SELLER_kyc.docx": {
+            "encrypted_blob_name": "f356b335d09926eff84f1f3dd388e618e8bb668a47b67019a90299c036a30c2f",
+            "sha256_encrypted": "d469b8690018f38034a52cd9e7fdd616037ae1e561275b22fbadf7607213b152",
+            "nonce": "69145930d3ce21539c11f6a4",
+            "tag": "525bb0a4875655211ae7ca5a287501ce"
+        },
+        "E:\\USB Drive\\Other\\SELLER_kyc.enc": {
+            "encrypted_blob_name": "ddb8d8a46afc9ce9b4bfb25f00cd703b5715997ce0251caa1d37eceb7d0b8c4e",
+            "sha256_encrypted": "95a775a00a34b3a9798e60719f38bad441d4ea94d8cbb1ac28c263242e02ef8c",
+            "nonce": "86e31bdd4ac9e1307a636383",
+            "tag": "4f80cc613a8974587e5b9474ee072b4e"
+        },
+        "E:\\USB Drive\\Other\\statementintegrity.enc": {
+            "encrypted_blob_name": "caf62289a07d2545b3e77aef5931a4459383c236f47d4f1c6bb1492ad4124171",
+            "sha256_encrypted": "3ac04accf354c7c8e390d9b8b5bcf499fe5bde8db9d5de6ec9c71dabd2b8f209",
+            "nonce": "ec6e67bbf974a15d9c12ba4c",
+            "tag": "165afc49b7eb4cc4407faeb64dac8e43"
+        },
+        "E:\\USB Drive\\Other\\statementintegrity.pdf": {
+            "encrypted_blob_name": "9c887ad9bed67c6aad57b24b1d107ade0baf978cd89a66a721fec784254b0076",
+            "sha256_encrypted": "46b6b92ff332f8286984b87c47d5b2c095ba7352de673f36a8339bc8b6bbfb18",
+            "nonce": "ce5f3dffae4246abe335ce1a",
+            "tag": "734e9b99aaff52e8a6bbd08a9b9782e3"
+        },
+        "E:\\USB Drive\\Pics\\WhatsApp Image 2022-09-04 at 4.44.22 PM.enc": {
+            "encrypted_blob_name": "ee7258c529ccfd7817429c920447e3050e82ee99f861aaa8606ef4a00d43145d",
+            "sha256_encrypted": "45ad2ec88595a169757ec60085434e477a4c4f18f696caf2006f6d81692d7c3a",
+            "nonce": "050a9fdc4821757a8a2d5859",
+            "tag": "36afdc5c149f4d799e1badf59f00f314"
+        },
+        "E:\\USB Drive\\Pics\\WhatsApp Image 2022-09-04 at 4.44.22 PM.jpeg": {
+            "encrypted_blob_name": "152568f795ad367b60ab54646de59811607b8d3845c091974707e88eb48e474c",
+            "sha256_encrypted": "e6b075dbd6b0445f4bac9259232c38d01bf68262c02283266922010c9c80d1a1",
+            "nonce": "178b3e9f218f25e7ea999aa2",
+            "tag": "e82174ce2026f9cf039d76e73f50c437"
+        },
+        "E:\\USB Drive\\Pics\\WhatsApp Image 2022-09-04 at 4.44.34 PM.enc": {
+            "encrypted_blob_name": "add4a59896e81192c6f890500a9458c7672246af87f95c49530c250edc78b45b",
+            "sha256_encrypted": "490eecabb63582e332bb539a9549a8a9fd322aa730bc9bb3d575d5ea54b29919",
+            "nonce": "4e21895c3716e91cc6e2718f",
+            "tag": "33a2c1d1a6bcf2fb68ca07582bbfb232"
+        },
+        "E:\\USB Drive\\Pics\\WhatsApp Image 2022-09-04 at 4.44.34 PM.jpeg": {
+            "encrypted_blob_name": "b2d4ed1ac7a14d4c9b6303c58cd13c010538a616721d382196d340593bde29cc",
+            "sha256_encrypted": "0b48bf3a3fc7c4452786cc83e851b676474e1144c9538c292ac5172887a1da2b",
+            "nonce": "ba5860ececd8387447d2bd9a",
+            "tag": "4fecd8aaec9cb9a36a7d2925bd24b38c"
+        },
+        "E:\\USB Drive\\Pics\\WhatsApp Image 2022-09-04 at 4.45.01 PM.enc": {
+            "encrypted_blob_name": "223b39b3d1ac79710c8787b8c20dbc1d2fb2972126780c77cb06335bfe2ba696",
+            "sha256_encrypted": "9345e7af19d933ca0846fbed1a9e9e2cb913c83d07b9d2d04aafd587bcbe9f9c",
+            "nonce": "c46e4e7ff22687fb081f7329",
+            "tag": "7092b3a363beb32fcc3ba0f573ab569b"
+        },
+        "E:\\USB Drive\\Pics\\WhatsApp Image 2022-09-04 at 4.45.01 PM.jpeg": {
+            "encrypted_blob_name": "10b56efb0ad92b788ceb9922b8fb6e29dc507dce591a8c94c020a7c8ffa9fbb4",
+            "sha256_encrypted": "e6fddfa0ddcb9e93afd4456aad17283afe72c73304e9f51a5caca85a54452604",
+            "nonce": "af04fa37555b094acd08bc9d",
+            "tag": "eb4ad257b8adbd5051335b80d6cbbd2e"
+        },
+        "E:\\USB Drive\\Pics\\WhatsApp Image 2022-09-04 at 4.45.19 PM.enc": {
+            "encrypted_blob_name": "ed74df78281442eee2e48695a0946709c85fe66673039ecbcbf8c86667025bd9",
+            "sha256_encrypted": "32c90bcc6fb0976e8e64064b4bf0b3c50211259d5e7db65f9087b1ca8fd28236",
+            "nonce": "72ccd5e6d2e677d138cc8ef2",
+            "tag": "fb417b3de032e76e717cf23088937249"
+        },
+        "E:\\USB Drive\\Pics\\WhatsApp Image 2022-09-04 at 4.45.19 PM.jpeg": {
+            "encrypted_blob_name": "1b60b17fdf744dc73b663d6ce7b01563de9bc51ba6919a254d0d65178b04d644",
+            "sha256_encrypted": "1d016711e218e380df3a061d943fca5e4b872e4ebe62ad2c0cc19d415b7a203f",
+            "nonce": "66cc3b1a08882016622a9da9",
+            "tag": "d934be5467dbc5474acb427169ea1b16"
+        },
+        "E:\\USB Drive\\PME Self.enc": {
+            "encrypted_blob_name": "f2bdc7d3b28bcd9ad1ce76047deb7470888b0e26d5ca1900a5fa3e499260ad4d",
+            "sha256_encrypted": "73960348945c80c61ffbd033544ad73b0d292ff1b7f4233123e6f7d1feff3be6",
+            "nonce": "985c4e97a8fe2141aa89d4f4",
+            "tag": "ef6c051ad61c5a30a72a7e94e10e8aa4"
+        },
+        "E:\\USB Drive\\PME Self.pdf": {
+            "encrypted_blob_name": "d8c033994e16b5e969f0d0815b55152a97b609e87d2daf5318855ba3e327754d",
+            "sha256_encrypted": "48c2e471356f01e7b00e8889b81994ec24f82b5871a137cbf9d6532e91d52f77",
+            "nonce": "d50be7f1587ec469046e333d",
+            "tag": "72fd12bfab005568f72a4d02cf1fe521"
+        },
+        "E:\\USB Drive\\PME Spouse.enc": {
+            "encrypted_blob_name": "8c3c1b22e70d63f1beb12997b6284070d61034fd4cefe2f90bdbcbf4aa695ea7",
+            "sha256_encrypted": "0b87e52049862121b67c95e9425070a890f59e0d7a4c7bd1e98e7e5fa7c7d20b",
+            "nonce": "4d3acc0e2cf1d8c21b10433e",
+            "tag": "e2da7e70b8b6fdd064571d0b503b5ed7"
+        },
+        "E:\\USB Drive\\PME Spouse.pdf": {
+            "encrypted_blob_name": "559a3a6d1acacb7144e14d9111bc81a98850c9ee660e04e0be39f2eaa114d0d7",
+            "sha256_encrypted": "a70870f0b14a84bdd8dcc260dcb7c51774a59efde09a7025fc24f0d1b63b649f",
+            "nonce": "da8911072164fb9421b58654",
+            "tag": "ea4b9adae49f96f5bcbb792872600fec"
+        },
+        "E:\\USB Drive\\Soumya's\\Nomination+Form+-+Life+insurance+and+other+benefits.enc": {
+            "encrypted_blob_name": "ce810e61169675b5efa5bb8e1cebfe14f24d01d5c3b9448e7c65e3dad21d8dce",
+            "sha256_encrypted": "8d7759a2479948ed7dd8a169411706deb107e6d061a11df75bfd3bd01d47918e",
+            "nonce": "559ef1d7b25549cc8ffa8974",
+            "tag": "975a84d8748483f13ceb2c64a0c25976"
+        },
+        "E:\\USB Drive\\Soumya's\\Nomination+Form+-+Life+insurance+and+other+benefits.pdf": {
+            "encrypted_blob_name": "d4cbe8e6b5dba466524402241caff4886411717e69637c8aeb46edc1e64f891f",
+            "sha256_encrypted": "dc392d3ae330579916239c6fdd26eaa91086e3669a6b38cc77524aab2c739032",
+            "nonce": "80edefbc0d1c75b6f095b45c",
+            "tag": "002c807f88aad42dc53d82569c248baa"
+        },
+        "E:\\USB Drive\\Soumya's\\nomination+gratuity+GSSPL(839).enc": {
+            "encrypted_blob_name": "8bee01ab381880a977c22b853bebd1b34be0abcd5ec94bd8064df4a432fdf28c",
+            "sha256_encrypted": "6a6473df8c529d2df67f03207f22a1dc09a0035d4c6d137d6f0ea2a7ee12c653",
+            "nonce": "f48f4e3ea61b7c41b3ef1724",
+            "tag": "ba688a11dc79f0577709e31c1744acd5"
+        },
+        "E:\\USB Drive\\Soumya's\\nomination+gratuity+GSSPL(839).pdf": {
+            "encrypted_blob_name": "c2145265dfe7811bf0edb24ce1ca7c1bac223183a0274935a0610671c5b04718",
+            "sha256_encrypted": "285a18f9c2ca767c44fecfa1916e5d213e8d20cbb772c91eb4eca756afa3d9de",
+            "nonce": "3caac4e15de41880f865b6d3",
+            "tag": "a68432a4a4e6097810ec19f5b2e9c085"
+        },
+        "E:\\USB Drive\\Soumya's\\Tax Proof Forms (2).enc": {
+            "encrypted_blob_name": "c20061808efc1f4511b3ed793778e46cc1f10fbf8c2b1d53cdef94fc3261ea1c",
+            "sha256_encrypted": "1d2f5de9166463c0a2575b53cf357b684e00ea78fb9fd17002f65c7ffc1c2ad9",
+            "nonce": "15f0f74b42f1fab153936a92",
+            "tag": "833550ef3353d1f49df1a90564048413"
+        },
+        "E:\\USB Drive\\Soumya's\\Tax Proof Forms (2).pdf": {
+            "encrypted_blob_name": "1a7b32d95179a70c69177faa6be0e3e1972b1e74c08df1ec1f2692a48c71c0b4",
+            "sha256_encrypted": "c500e69a4ddcd2e98148ddc31a44d88344b3645a84810ea2e0f67612363295d4",
+            "nonce": "21343cc5562b9347ded869ac",
+            "tag": "de4747701dd528f7200d86849066586b"
+        }
+    },
+    "encryption_params": {
+        "algorithm": "AES-256-GCM",
+        "cek_wrapped": "(placeholder - will be wrapped by Vault)"
+    },
+    "signature": {
+        "signer": "gateway",
+        "value": "51cf1c6f960b08395760bb0f2c1f07f52616cd3c898f9841a161072644f6dfd635a3b379d83bf7857b1a2a05ee3b12847c6a76ba81fd6da6048f438c8612fd0f",
+        "timestamp": "2025-09-23T11:47:42.369909Z"
+    }
+}

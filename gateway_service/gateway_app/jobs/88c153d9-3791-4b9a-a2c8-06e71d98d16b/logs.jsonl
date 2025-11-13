@@ -1,0 +1,9 @@
+{"timestamp": "2025-11-13T13:40:41.087195Z", "event_type": "STATE_TRANSITION", "data": {"new_state": "INITIALIZED", "details": {"detail": "Job created and metadata saved."}}}
+{"timestamp": "2025-11-13T13:40:41.173680Z", "event_type": "STATE_TRANSITION", "data": {"new_state": "ENUMERATING", "details": {}}}
+{"timestamp": "2025-11-13T13:40:41.234521Z", "event_type": "ENUMERATION_START", "data": {"root_path": "E:\\"}}
+{"timestamp": "2025-11-13T13:40:41.302173Z", "event_type": "ENUMERATION_COMPLETE", "data": {"file_count": 391}}
+{"timestamp": "2025-11-13T13:40:41.303289Z", "event_type": "STATE_TRANSITION", "data": {"new_state": "POLICY_CHECK", "details": {}}}
+{"timestamp": "2025-11-13T13:40:41.334033Z", "event_type": "POLICY_CHECK_START", "data": {"policy_count": 3}}
+{"timestamp": "2025-11-13T13:40:41.335174Z", "event_type": "POLICY_EVAL_START", "data": {"policy_id": "POLICY-001", "policy_name": "Blacklisted File Extensions"}}
+{"timestamp": "2025-11-13T13:40:41.337335Z", "event_type": "POLICY_EVAL_START", "data": {"policy_id": "POLICY-002", "policy_name": "Maximum File Size"}}
+{"timestamp": "2025-11-13T13:40:41.418277Z", "event_type": "STATE_TRANSITION", "data": {"new_state": "FAILED_POLICY", "details": {"policy_id": "POLICY-002", "file_path": "E:\\ids-peak-win-standard-setup-64-2.17.1.0.zip", "file_size_mb": 163.64, "reason": "File size (163.64 MB) exceeds the limit of 100 MB."}}}

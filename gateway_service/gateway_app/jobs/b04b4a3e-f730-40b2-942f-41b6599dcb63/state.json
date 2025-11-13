@@ -1,0 +1,29 @@
+{
+    "current_state": "SUCCESS",
+    "history": [
+        {
+            "state": "INITIALIZED",
+            "timestamp": "2025-09-23T04:50:59.914654Z"
+        },
+        {
+            "state": "ENUMERATING",
+            "timestamp": "2025-09-23T04:51:00.395686Z"
+        },
+        {
+            "state": "POLICY_CHECK",
+            "timestamp": "2025-09-23T04:51:00.486504Z"
+        },
+        {
+            "state": "SCANNING",
+            "timestamp": "2025-09-23T04:51:00.549013Z"
+        },
+        {
+            "state": "PACKAGING",
+            "timestamp": "2025-09-23T04:51:14.991117Z"
+        },
+        {
+            "state": "SUCCESS",
+            "timestamp": "2025-09-23T04:51:21.797108Z"
+        }
+    ]
+}

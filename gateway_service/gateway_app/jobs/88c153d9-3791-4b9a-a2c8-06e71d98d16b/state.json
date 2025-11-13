@@ -1,0 +1,21 @@
+{
+    "current_state": "FAILED_POLICY",
+    "history": [
+        {
+            "state": "INITIALIZED",
+            "timestamp": "2025-11-13T13:40:41.088162Z"
+        },
+        {
+            "state": "ENUMERATING",
+            "timestamp": "2025-11-13T13:40:41.230558Z"
+        },
+        {
+            "state": "POLICY_CHECK",
+            "timestamp": "2025-11-13T13:40:41.329390Z"
+        },
+        {
+            "state": "FAILED_POLICY",
+            "timestamp": "2025-11-13T13:40:41.446014Z"
+        }
+    ]
+}

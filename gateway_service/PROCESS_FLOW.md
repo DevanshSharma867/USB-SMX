@@ -101,9 +101,12 @@ gateway_service/
         ├── metadata.json          <-- Static metadata about the source device (serial, capacity, etc.)
         ├── state.json             <-- The current state of the job and a history of all past states.
         ├── logs.jsonl             <-- A detailed, append-only log of every event during the job.
-        ├── manifest.json          <-- The final report listing all encrypted files and their hashes.
-        ├── cek.key                <-- The encryption key for this job's files (insecurely stored for MVP).
-        └── data/                  <-- A subdirectory containing the encrypted file blobs.
-            ├── <file_hash_1>
-            └── <file_hash_2>
+        └── manifest.json          <-- The final report listing all processed files and their cryptographic details.
+
+<Pendrive Root>/
+└── .gateway_output/               <-- Hidden folder created on the pendrive
+    ├── cek.key                    <-- The encryption key for this job's files (insecurely stored for MVP).
+    └── data/                      <-- A subdirectory containing the encrypted file blobs.
+        ├── <file_hash_1>
+        └── <file_hash_2>
 ```

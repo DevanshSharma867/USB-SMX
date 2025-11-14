@@ -74,13 +74,14 @@ class CryptoManager:
         sha256.update(data)
         return sha256.hexdigest()
 
-    def create_manifest(self, job, file_metadata: dict, file_count: int = None, pendrive_output_path: str = None) -> dict:
+    def create_manifest(self, job, file_metadata: dict, wrapped_cek: str, file_count: int = None, pendrive_output_path: str = None) -> dict:
         """
         Creates the job manifest.
         
         Args:
             job: The job object.
             file_metadata: A dictionary mapping file paths to their metadata (hash, etc.).
+            wrapped_cek: The base64-encoded wrapped Content Encryption Key from the KMS.
             file_count: Total number of files processed.
             pendrive_output_path: Path where encrypted files are stored on the pendrive.
         
@@ -99,7 +100,7 @@ class CryptoManager:
             "files": file_metadata,
             "encryption_params": {
                 "algorithm": "AES-256-GCM",
-                "cek_wrapped": "(placeholder - will be wrapped by Vault)"
+                "cek_wrapped": wrapped_cek
             }
         }
         return manifest

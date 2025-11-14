@@ -6,17 +6,23 @@ import sys
 import json
 from pathlib import Path
 
+# --- Add project root to sys.path for KMS import ---
+PROJECT_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+# ---------------------------------------------------
+
 try:
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
     from cryptography.exceptions import InvalidTag
     from cryptography.hazmat.primitives.asymmetric import ed25519
     from cryptography.hazmat.primitives import serialization
-except ImportError:
-    print("Error: The 'cryptography' library is required. Please install it using 'pip install cryptography'")
+    from gateway_app.src.gateway.kms import KMS # Import the KMS
+except ImportError as e:
+    print(f"Error: A required library is missing or could not be imported: {e}")
+    print("Please ensure 'cryptography' is installed ('pip install cryptography') and paths are correct.")
     sys.exit(1)
 
 # --- Configuration ---
-JOBS_DIR = Path(__file__).parent / "jobs"
 PUBLIC_KEY_PATH = Path(__file__).parent.parent / "gateway_app/src/gateway/keys/gateway_public_key.pem"
 
 def verify_manifest_signature(manifest: dict, public_key: ed25519.Ed25519PublicKey) -> bool:
@@ -47,22 +53,31 @@ def main():
     """Main function to run the decryption process."""
     # 1. Get Job ID from command line argument
     if len(sys.argv) != 2:
-        print(f"Usage: python {sys.argv[0]} <job_id>")
-        print(f"Example: python {sys.argv[0]} b906af11-2616-4065-948a-0905159cba9a")
+        print(f"Usage: python {sys.argv[0]} <job_id_or_drive_letter>")
+        print(f"Example (Job ID): python {sys.argv[0]} b906af11-2616-4065-948a-0905159cba9a")
+        print(f"Example (Drive Letter): python {sys.argv[0]} E:")
         sys.exit(1)
     
-    job_id = sys.argv[1]
-    job_dir = JOBS_DIR / job_id
-    output_dir = job_dir / "decrypted_output"
+    arg = sys.argv[1]
+    
+    # Determine if the argument is a drive letter or a job ID
+    if ":" in arg:
+        drive_letter = arg.strip().upper()
+        pendrive_root = Path(f"{drive_letter}/")
+        manifest_path = pendrive_root / ".gateway_output" / "manifest.json"
+        print(f"--- Decrypting Job from Drive: {drive_letter} ---")
+    else:
+        # This path is for local testing and may not reflect the pendrive structure
+        job_id = arg
+        job_dir = Path(__file__).parent.parent / "gateway_app" / "jobs" / job_id
+        manifest_path = job_dir / "manifest.json"
+        print(f"--- Decrypting Job from local files: {job_id} ---")
 
-    print(f"--- Decrypting Job: {job_id} ---")
+    output_dir = Path.cwd() / "decrypted_output"
 
-    # 2. Find the manifest on the pendrive
-    pendrive_root = Path(sys.argv[1])
-    manifest_path = pendrive_root / ".gateway_output" / "manifest.json"
-
+    # 2. Find the manifest
     if not manifest_path.is_file():
-        print(f"Error: manifest.json not found on pendrive at {manifest_path}")
+        print(f"Error: manifest.json not found at {manifest_path}")
         sys.exit(1)
 
     # 3. Load public key
@@ -88,26 +103,32 @@ def main():
     if not verify_manifest_signature(manifest, public_key):
         sys.exit(1)
 
+    # 5. Get Wrapped Key and Unwrap it using the KMS
+    print("Unwrapping decryption key via KMS...")
+    try:
+        kms = KMS()
+        wrapped_cek = manifest["encryption_params"]["cek_wrapped"]
+        cek = kms.unwrap_key(wrapped_cek)
+        print("Key unwrapped successfully.")
+    except FileNotFoundError as e:
+        print(f"FATAL: Could not initialize KMS. {e}")
+        sys.exit(1)
+    except (InvalidTag, ValueError) as e:
+        print(f"FATAL: Failed to unwrap key. It may be corrupt or tampered with. {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"FATAL: An unexpected error occurred during key unwrapping: {e}")
+        sys.exit(1)
+
+    # 6. Get data paths from manifest
     pendrive_output_path_str = manifest.get("pendrive_output_path")
     if not pendrive_output_path_str:
-        print("Error: manifest.json does not contain 'pendrive_output_path'. This job was likely created with an older version.")
+        print("Error: manifest.json does not contain 'pendrive_output_path'.")
         sys.exit(1)
     
-    pendrive_root = Path(pendrive_output_path_str)
-    key_path = pendrive_root / "cek.key"
-    data_dir = pendrive_root / "data"
-
-    # 5. Validate pendrive paths
-    if not all([key_path.is_file(), data_dir.is_dir()]):
-        print(f"Error: Encrypted data or key not found on pendrive at {pendrive_root}. Ensure the pendrive is inserted.")
-        sys.exit(1)
-
-    # 6. Load key
-    print("Loading decryption key from pendrive...")
-    try:
-        cek = key_path.read_bytes()
-    except Exception as e:
-        print(f"Error reading CEK from pendrive: {e}")
+    data_dir = Path(pendrive_output_path_str) / "data"
+    if not data_dir.is_dir():
+        print(f"Error: Encrypted data directory not found at {data_dir}.")
         sys.exit(1)
 
     # 7. Create output directory
@@ -130,6 +151,7 @@ def main():
         try:
             # Reconstruct the full path for the output file
             if original_path.is_absolute():
+                # Make path relative to its anchor (e.g., C:\ -> Users\...)
                 relative_path = original_path.relative_to(original_path.anchor)
             else:
                 relative_path = original_path

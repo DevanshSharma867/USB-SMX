@@ -6,6 +6,7 @@ from enum import Enum
 from pathlib import Path
 from .job_manager import Job, JobState, JobManager
 from .crypto import CryptoManager
+from .kms import KMS
 
 class ScanVerdict(Enum):
     """Enumeration of possible scan results."""
@@ -25,6 +26,7 @@ class FileProcessor:
     def __init__(self, job_manager: JobManager):
         self._job_manager = job_manager
         self._crypto_manager = CryptoManager()
+        self._kms = KMS()
         self._policies = self._load_policies()
         self._mp_cmd_run_path = None # Initialize to None
         self.job = None
@@ -208,18 +210,17 @@ class FileProcessor:
         self._job_manager.log_event(job, "PACKAGING_START", {"algorithm": "AES-256-GCM", "destination": drive_letter})
         
         cek = self._crypto_manager.generate_cek()
+        wrapped_cek = self._kms.wrap_key(cek)
 
         # Define pendrive output paths
         pendrive_output_dir = Path(f"{drive_letter}/.gateway_output")
         pendrive_data_dir = pendrive_output_dir / "data"
-        pendrive_cek_path = pendrive_output_dir / "cek.key"
         pendrive_manifest_path = pendrive_output_dir / "manifest.json"
 
         try:
             pendrive_data_dir.mkdir(parents=True, exist_ok=True)
-            self._crypto_manager.save_cek_to_disk(cek, pendrive_cek_path) # Save CEK to pendrive
         except Exception as e:
-            self._job_manager.update_state(job, JobState.FAILED, {"error": f"Failed to create output directory or save CEK on pendrive: {e}"})
+            self._job_manager.update_state(job, JobState.FAILED, {"error": f"Failed to create output directory on pendrive: {e}"})
             return
         
         file_manifest_data = {}
@@ -251,7 +252,8 @@ class FileProcessor:
         # Create the final manifest
         manifest = self._crypto_manager.create_manifest(
             job, 
-            file_manifest_data, 
+            file_manifest_data,
+            wrapped_cek=wrapped_cek,
             file_count=len(file_list),
             pendrive_output_path=str(pendrive_output_dir)
         )

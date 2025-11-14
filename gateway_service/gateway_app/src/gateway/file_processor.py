@@ -230,7 +230,7 @@ class FileProcessor:
             if not encrypted_data:
                 raise RuntimeError(f"Failed to encrypt {file_path}")
 
-            ciphertext, nonce, tag = encrypted_data
+            ciphertext, nonce, tag, original_size = encrypted_data
             
             file_hash = self._crypto_manager.get_sha256_hash(str(file_path).encode('utf-8'))
             encrypted_file_path_on_pendrive = pendrive_data_dir / file_hash
@@ -246,7 +246,8 @@ class FileProcessor:
                 "encrypted_blob_name": file_hash,
                 "sha256_encrypted": self._crypto_manager.get_sha256_hash(ciphertext),
                 "nonce": nonce.hex(),
-                "tag": tag.hex()
+                "tag": tag.hex(),
+                "original_size": original_size
             }
 
         # Create the final manifest

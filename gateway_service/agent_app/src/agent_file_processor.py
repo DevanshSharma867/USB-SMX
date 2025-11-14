@@ -3,6 +3,10 @@ import sys
 import json
 from pathlib import Path
 import queue
+import os
+import subprocess
+import time
+import threading
 
 # --- Add project root to sys.path for KMS import ---
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -14,23 +18,28 @@ from gateway_app.src.gateway.kms import KMS
 from cryptography.exceptions import InvalidTag
 
 class AgentFileProcessor:
-    """Handles the processing of encrypted jobs for the agent."""
+    """
+    Handles the processing of encrypted jobs for the agent, including
+    loading job data, unwrapping CEKs, and decrypting/opening single files on demand.
+    """
 
     def __init__(self):
         self.crypto_manager = AgentCryptoManager()
         self.kms = KMS()
+        self.loaded_jobs = {} # Stores {job_path_str: {'manifest': manifest, 'cek': cek, 'data_path': data_path}}
 
-    def _send_log(self, gui_queue: queue.Queue, job_path: str, message: str):
+    def _send_log(self, gui_queue: queue.Queue, job_path_str: str, message: str):
         if gui_queue:
-            gui_queue.put({"event": "LOG_EVENT", "job_path": job_path, "log_message": message})
+            gui_queue.put({"event": "LOG_EVENT", "job_path": job_path_str, "log_message": message})
 
-    def _send_status(self, gui_queue: queue.Queue, job_path: str, status: str):
+    def _send_status(self, gui_queue: queue.Queue, job_path_str: str, status: str):
         if gui_queue:
-            gui_queue.put({"event": "STATUS_UPDATE", "job_path": job_path, "status": status})
+            gui_queue.put({"event": "STATUS_UPDATE", "job_path": job_path_str, "status": status})
 
-    def process_encrypted_job(self, job_path: Path, output_path: Path, gui_queue: queue.Queue, job_path_str: str):
+    def load_job_data(self, job_path: Path, gui_queue: queue.Queue, job_path_str: str) -> bool:
         """
-        Processes an encrypted job directory, decrypting files to the output path.
+        Loads the manifest and unwraps the CEK for a given encrypted job.
+        Does NOT decrypt files.
         """
         manifest_path = job_path / "manifest.json"
         data_path = job_path / "data"
@@ -38,7 +47,7 @@ class AgentFileProcessor:
         if not all([manifest_path.exists(), data_path.exists()]):
             self._send_log(gui_queue, job_path_str, "Error: Job directory is incomplete (missing manifest.json or data folder).")
             self._send_status(gui_queue, job_path_str, "FAILED")
-            return
+            return False
 
         # 1. Load and Verify Manifest
         self._send_status(gui_queue, job_path_str, "VERIFYING_SIGNATURE")
@@ -49,12 +58,12 @@ class AgentFileProcessor:
         except Exception as e:
             self._send_log(gui_queue, job_path_str, f"Error: Could not read manifest.json: {e}")
             self._send_status(gui_queue, job_path_str, "FAILED")
-            return
+            return False
         
         if not self.crypto_manager.verify_manifest_signature(manifest.copy()):
             self._send_log(gui_queue, job_path_str, "Error: Manifest signature is invalid. Aborting.")
             self._send_status(gui_queue, job_path_str, "FAILED")
-            return
+            return False
         self._send_log(gui_queue, job_path_str, "Manifest signature verified.")
 
         # 2. Unwrap CEK using the KMS
@@ -66,55 +75,96 @@ class AgentFileProcessor:
         except (InvalidTag, ValueError, KeyError) as e:
             self._send_log(gui_queue, job_path_str, f"FATAL: Failed to unwrap key. It may be corrupt, tampered with, or missing. {e}")
             self._send_status(gui_queue, job_path_str, "FAILED")
-            return
+            return False
         except Exception as e:
             self._send_log(gui_queue, job_path_str, f"FATAL: An unexpected error occurred during key unwrapping: {e}")
             self._send_status(gui_queue, job_path_str, "FAILED")
+            return False
+        
+        # Store loaded job data
+        self.loaded_jobs[job_path_str] = {
+            'manifest': manifest,
+            'cek': cek,
+            'data_path': data_path
+        }
+        self._send_status(gui_queue, job_path_str, "READY_FOR_ACCESS")
+        return True
+
+    def decrypt_and_open_single_file(self, job_path_str: str, original_file_path: str, gui_queue: queue.Queue):
+        """
+        Decrypts a single file to a temporary location and opens it with the default application.
+        Monitors the application and securely deletes the temporary file upon closure.
+        """
+        job_data = self.loaded_jobs.get(job_path_str)
+        if not job_data:
+            self._send_log(gui_queue, job_path_str, f"Error: Job data not loaded for {job_path_str}.")
             return
 
-        # 3. Decrypt Files
-        self._send_status(gui_queue, job_path_str, "DECRYPTING")
-        output_path.mkdir(parents=True, exist_ok=True)
-        self._send_log(gui_queue, job_path_str, f"Decrypting files to: {output_path.absolute()}")
-        for original_path, file_info in manifest["files"].items():
-            # Skip system files
-            if (original_path.lower().endswith("desktop.ini") or
-                original_path.lower().endswith("thumbs.db") or
-                original_path.startswith("$") or
-                original_path.lower() in [".ds_store", ".spotlight-v100", ".trashes", ".fseventsd"]):
-                self._send_log(gui_queue, job_path_str, f"Skipping {original_path} (system file)...")
-                continue
-                
-            encrypted_blob_name = file_info["encrypted_blob_name"]
-            encrypted_file_path = data_path / encrypted_blob_name
-            nonce = bytes.fromhex(file_info["nonce"])
-            tag = bytes.fromhex(file_info["tag"])
+        manifest = job_data['manifest']
+        cek = job_data['cek']
+        data_path = job_data['data_path']
+        
+        file_info = manifest["files"].get(original_file_path)
+        if not file_info:
+            self._send_log(gui_queue, job_path_str, f"Error: File '{original_file_path}' not found in manifest.")
+            return
 
-            self._send_log(gui_queue, job_path_str, f"Decrypting {original_path}...")
+        self._send_log(gui_queue, job_path_str, f"Attempting to open: {original_file_path}")
+        
+        encrypted_blob_name = file_info["encrypted_blob_name"]
+        encrypted_file_path = data_path / encrypted_blob_name
+        nonce = bytes.fromhex(file_info["nonce"])
+        tag = bytes.fromhex(file_info["tag"])
+
+        try:
             plaintext = self.crypto_manager.decrypt_file(encrypted_file_path, cek, nonce, tag)
-
-            if plaintext:
-                try:
-                    # Recreate the original directory structure
-                    original_path_obj = Path(original_path)
-                    if original_path_obj.is_absolute():
-                        relative_path = original_path_obj.relative_to(original_path_obj.anchor)
-                    else:
-                        relative_path = original_path_obj
-                    
-                    decrypted_file_path = output_path / relative_path
-                    decrypted_file_path.parent.mkdir(parents=True, exist_ok=True)
-                    
-                    with open(decrypted_file_path, 'wb') as f:
-                        f.write(plaintext)
-                    self._send_log(gui_queue, job_path_str, f"  -> Decrypted successfully to {decrypted_file_path}")
-                except Exception as e:
-                    self._send_log(gui_queue, job_path_str, f"  -> ERROR writing file {original_path}: {e}")
-                    self._send_status(gui_queue, job_path_str, "FAILED")
-                    return
-            else:
-                self._send_log(gui_queue, job_path_str, f"Failed to decrypt {original_path}")
-                self._send_status(gui_queue, job_path_str, "FAILED")
+            if not plaintext:
+                self._send_log(gui_queue, job_path_str, f"Failed to decrypt {original_file_path}.")
                 return
 
-        self._send_status(gui_queue, job_path_str, "COMPLETE")
+            # Create a temporary file
+            original_path_obj = Path(original_file_path)
+            temp_dir = Path(os.environ.get('TEMP', os.environ.get('TMP', '/tmp'))) / "smx_agent_temp"
+            temp_dir.mkdir(parents=True, exist_ok=True)
+            
+            temp_file_path = temp_dir / f"{original_path_obj.name}"
+            
+            with open(temp_file_path, 'wb') as f:
+                f.write(plaintext)
+            
+            self._send_log(gui_queue, job_path_str, f"Decrypted to temporary file: {temp_file_path}")
+
+            # Open the temporary file with the default application
+            if sys.platform == "win32":
+                # Use os.startfile for Windows
+                process = subprocess.Popen(['start', '', str(temp_file_path)], shell=True)
+            elif sys.platform == "darwin":
+                # Use 'open' for macOS
+                process = subprocess.Popen(['open', str(temp_file_path)])
+            else:
+                # Use 'xdg-open' for Linux
+                process = subprocess.Popen(['xdg-open', str(temp_file_path)])
+            
+            self._send_log(gui_queue, job_path_str, f"Launched application for {original_file_path}. Waiting for it to close...")
+
+            # Monitor the process and delete the temp file when it closes
+            def monitor_and_cleanup():
+                try:
+                    process.wait() # Wait for the launched application to close
+                    self._send_log(gui_queue, job_path_str, f"Application for {original_file_path} closed. Deleting temporary file.")
+                    os.remove(temp_file_path)
+                    self._send_log(gui_queue, job_path_str, f"Temporary file {temp_file_path} deleted.")
+                except Exception as cleanup_e:
+                    self._send_log(gui_queue, job_path_str, f"Error during cleanup of {temp_file_path}: {cleanup_e}")
+
+            threading.Thread(target=monitor_and_cleanup).start()
+
+        except Exception as e:
+            self._send_log(gui_queue, job_path_str, f"Error opening {original_file_path}: {e}")
+            if 'temp_file_path' in locals() and temp_file_path.exists():
+                try:
+                    os.remove(temp_file_path)
+                    self._send_log(gui_queue, job_path_str, f"Cleaned up failed temporary file {temp_file_path}.")
+                except Exception as cleanup_e:
+                    self._send_log(gui_queue, job_path_str, f"Error during cleanup of failed temporary file {temp_file_path}: {cleanup_e}")
+

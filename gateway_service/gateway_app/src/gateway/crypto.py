@@ -62,7 +62,7 @@ class CryptoManager:
             actual_ciphertext = ciphertext[:-tag_length]
             tag = ciphertext[-tag_length:]
 
-            return actual_ciphertext, nonce, tag
+            return actual_ciphertext, nonce, tag, len(plaintext)
 
         except Exception as e:
             print(f"Failed to encrypt {file_path}: {e}")

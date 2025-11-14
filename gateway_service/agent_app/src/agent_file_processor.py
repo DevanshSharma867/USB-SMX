@@ -1,14 +1,24 @@
 
+import sys
 import json
 from pathlib import Path
 import queue
+
+# --- Add project root to sys.path for KMS import ---
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+# ---------------------------------------------------
+
 from agent_crypto import AgentCryptoManager
+from gateway_app.src.gateway.kms import KMS
+from cryptography.exceptions import InvalidTag
 
 class AgentFileProcessor:
     """Handles the processing of encrypted jobs for the agent."""
 
     def __init__(self):
         self.crypto_manager = AgentCryptoManager()
+        self.kms = KMS()
 
     def _send_log(self, gui_queue: queue.Queue, job_path: str, message: str):
         if gui_queue:
@@ -23,19 +33,23 @@ class AgentFileProcessor:
         Processes an encrypted job directory, decrypting files to the output path.
         """
         manifest_path = job_path / "manifest.json"
-        cek_path = job_path / "cek.key"
         data_path = job_path / "data"
 
-        if not all([manifest_path.exists(), cek_path.exists(), data_path.exists()]):
-            self._send_log(gui_queue, job_path_str, "Error: Job directory is incomplete.")
+        if not all([manifest_path.exists(), data_path.exists()]):
+            self._send_log(gui_queue, job_path_str, "Error: Job directory is incomplete (missing manifest.json or data folder).")
             self._send_status(gui_queue, job_path_str, "FAILED")
             return
 
         # 1. Load and Verify Manifest
         self._send_status(gui_queue, job_path_str, "VERIFYING_SIGNATURE")
         self._send_log(gui_queue, job_path_str, "Loading manifest...")
-        with open(manifest_path, 'r') as f:
-            manifest = json.load(f)
+        try:
+            with open(manifest_path, 'r') as f:
+                manifest = json.load(f)
+        except Exception as e:
+            self._send_log(gui_queue, job_path_str, f"Error: Could not read manifest.json: {e}")
+            self._send_status(gui_queue, job_path_str, "FAILED")
+            return
         
         if not self.crypto_manager.verify_manifest_signature(manifest.copy()):
             self._send_log(gui_queue, job_path_str, "Error: Manifest signature is invalid. Aborting.")
@@ -43,17 +57,28 @@ class AgentFileProcessor:
             return
         self._send_log(gui_queue, job_path_str, "Manifest signature verified.")
 
-        # 2. Load CEK (insecurely for MVP)
-        cek = self.crypto_manager.load_cek_from_disk(cek_path)
+        # 2. Unwrap CEK using the KMS
+        self._send_log(gui_queue, job_path_str, "Unwrapping key via KMS...")
+        try:
+            wrapped_cek = manifest["encryption_params"]["cek_wrapped"]
+            cek = self.kms.unwrap_key(wrapped_cek)
+            self._send_log(gui_queue, job_path_str, "Key unwrapped successfully.")
+        except (InvalidTag, ValueError, KeyError) as e:
+            self._send_log(gui_queue, job_path_str, f"FATAL: Failed to unwrap key. It may be corrupt, tampered with, or missing. {e}")
+            self._send_status(gui_queue, job_path_str, "FAILED")
+            return
+        except Exception as e:
+            self._send_log(gui_queue, job_path_str, f"FATAL: An unexpected error occurred during key unwrapping: {e}")
+            self._send_status(gui_queue, job_path_str, "FAILED")
+            return
 
         # 3. Decrypt Files
         self._send_status(gui_queue, job_path_str, "DECRYPTING")
         output_path.mkdir(parents=True, exist_ok=True)
         self._send_log(gui_queue, job_path_str, f"Decrypting files to: {output_path.absolute()}")
         for original_path, file_info in manifest["files"].items():
-            # Skip system files and cek.key file
-            if (original_path.endswith("cek.key") or 
-                original_path.lower().endswith("desktop.ini") or
+            # Skip system files
+            if (original_path.lower().endswith("desktop.ini") or
                 original_path.lower().endswith("thumbs.db") or
                 original_path.startswith("$") or
                 original_path.lower() in [".ds_store", ".spotlight-v100", ".trashes", ".fseventsd"]):
@@ -70,7 +95,7 @@ class AgentFileProcessor:
 
             if plaintext:
                 try:
-                    # Recreate the original directory structure (similar to decrypt_job.py)
+                    # Recreate the original directory structure
                     original_path_obj = Path(original_path)
                     if original_path_obj.is_absolute():
                         relative_path = original_path_obj.relative_to(original_path_obj.anchor)

@@ -129,20 +129,3 @@ class CryptoManager:
         }
         print("Manifest signed.")
         return signed_manifest
-
-    # --- MVP Insecure Key Handling ---
-    # WARNING: The following methods are for MVP purposes only and are insecure.
-    # In a real system, the CEK should never be written to disk in plaintext.
-    # It should be wrapped by a master key from an HSM or Vault.
-
-    def save_cek_to_disk(self, cek: bytes, path: Path):
-        """Saves the plaintext CEK to disk. INSECURE."""
-        print(f"INSECURE: Saving plaintext CEK to {path}")
-        with open(path, 'wb') as f:
-            f.write(cek)
-
-    def load_cek_from_disk(self, path: Path) -> bytes:
-        """Loads the plaintext CEK from disk. INSECURE."""
-        print(f"INSECURE: Loading plaintext CEK from {path}")
-        with open(path, 'rb') as f:
-            return f.read()

@@ -65,9 +65,3 @@ class AgentCryptoManager:
         except Exception as e:
             print(f"Failed to decrypt {encrypted_path}: {e}")
             return None
-
-    def load_cek_from_disk(self, path: Path) -> bytes:
-        """Loads the plaintext CEK from disk. INSECURE MVP METHOD."""
-        print(f"INSECURE: Loading plaintext CEK from {path}")
-        with open(path, 'rb') as f:
-            return f.read()

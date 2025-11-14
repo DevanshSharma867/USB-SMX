@@ -1,8 +1,0 @@
-{"timestamp": "2025-09-23T12:16:25.002888Z", "event_type": "STATE_TRANSITION", "data": {"new_state": "INITIALIZED", "details": {"detail": "Job created and metadata saved."}}}
-{"timestamp": "2025-09-23T12:16:25.016493Z", "event_type": "STATE_TRANSITION", "data": {"new_state": "ENUMERATING", "details": {}}}
-{"timestamp": "2025-09-23T12:16:25.105386Z", "event_type": "ENUMERATION_START", "data": {"root_path": "E:\\"}}
-{"timestamp": "2025-09-23T12:16:25.140447Z", "event_type": "ENUMERATION_COMPLETE", "data": {"file_count": 130}}
-{"timestamp": "2025-09-23T12:16:25.141431Z", "event_type": "STATE_TRANSITION", "data": {"new_state": "POLICY_CHECK", "details": {}}}
-{"timestamp": "2025-09-23T12:16:25.173761Z", "event_type": "POLICY_CHECK_START", "data": {"policy_count": 3}}
-{"timestamp": "2025-09-23T12:16:25.174703Z", "event_type": "POLICY_EVAL_START", "data": {"policy_id": "POLICY-001", "policy_name": "Blacklisted File Extensions"}}
-{"timestamp": "2025-09-23T12:16:25.175623Z", "event_type": "STATE_TRANSITION", "data": {"new_state": "FAILED_POLICY", "details": {"policy_id": "POLICY-001", "file_path": "E:\\commsys2.slx", "reason": "File extension '.slx' is blacklisted."}}}

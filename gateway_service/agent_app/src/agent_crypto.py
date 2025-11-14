@@ -13,7 +13,7 @@ class AgentCryptoManager:
 
     def _load_public_key(self) -> ed25519.Ed25519PublicKey | None:
         """Loads the gateway's public key to verify manifest signatures."""
-        public_key_path = Path(__file__).parent.parent / "src" / "gateway" / "keys" / "gateway_public_key.pem"
+        public_key_path = Path(__file__).parent.parent.parent / "gateway_app" / "src" / "gateway" / "keys" / "gateway_public_key.pem"
         if not public_key_path.exists():
             print("FATAL: Gateway public key not found.")
             return None
@@ -33,14 +33,16 @@ class AgentCryptoManager:
             print("Cannot verify manifest: Public key not loaded.")
             return False
 
-        signature_block = signed_manifest.pop("signature", None)
+        # Work on a copy to avoid modifying the original dictionary
+        manifest_to_verify = signed_manifest.copy()
+        signature_block = manifest_to_verify.pop("signature", None)
         if not signature_block:
             print("Manifest is not signed.")
             return False
 
         try:
             signature = bytes.fromhex(signature_block["value"])
-            canonical_manifest = json.dumps(signed_manifest, sort_keys=True, separators=(',', ':')).encode('utf-8')
+            canonical_manifest = json.dumps(manifest_to_verify, sort_keys=True, separators=(',', ':')).encode('utf-8')
             
             self._public_key.verify(signature, canonical_manifest)
             print("Manifest signature is valid.")

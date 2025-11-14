@@ -25,10 +25,12 @@ def verify_manifest_signature(manifest: dict, public_key: ed25519.Ed25519PublicK
         print("Error: Manifest is not signed.")
         return False
 
-    signature_data = manifest.pop("signature")
+    # Work on a copy to avoid modifying the original dictionary
+    manifest_to_verify = manifest.copy()
+    signature_data = manifest_to_verify.pop("signature")
     signature = bytes.fromhex(signature_data["value"])
     
-    canonical_manifest = json.dumps(manifest, sort_keys=True, separators=(',', ':')).encode('utf-8')
+    canonical_manifest = json.dumps(manifest_to_verify, sort_keys=True, separators=(',', ':')).encode('utf-8')
     
     try:
         public_key.verify(signature, canonical_manifest)

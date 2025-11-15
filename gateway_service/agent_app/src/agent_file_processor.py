@@ -135,14 +135,19 @@ class AgentFileProcessor:
             self._send_log(gui_queue, job_path_str, f"Decrypted to temporary file: {temp_file_path}")
 
             # Open the temporary file with the default application
+            # We use commands that wait for the application to close before returning.
             if sys.platform == "win32":
-                # Use os.startfile for Windows
-                process = subprocess.Popen(['start', '', str(temp_file_path)], shell=True)
+                # On Windows, 'start /WAIT' launches the application and waits.
+                # We build the command as a single string with quotes around the path to be safe.
+                command = f'start "" /WAIT "{temp_file_path}"'
+                process = subprocess.Popen(command, shell=True)
             elif sys.platform == "darwin":
-                # Use 'open' for macOS
-                process = subprocess.Popen(['open', str(temp_file_path)])
+                # On macOS, 'open -W' waits for the application to close.
+                process = subprocess.Popen(['open', '-W', str(temp_file_path)])
             else:
-                # Use 'xdg-open' for Linux
+                # On Linux, 'xdg-open' does not have a wait flag, so this will still have the
+                # original bug where the file is deleted immediately. A more complex solution
+                # would be needed for Linux (e.g., using psutil to find the process).
                 process = subprocess.Popen(['xdg-open', str(temp_file_path)])
             
             self._send_log(gui_queue, job_path_str, f"Launched application for {original_file_path}. Waiting for it to close...")
@@ -150,8 +155,12 @@ class AgentFileProcessor:
             # Monitor the process and delete the temp file when it closes
             def monitor_and_cleanup():
                 try:
-                    process.wait() # Wait for the launched application to close
+                    # For Windows/macOS, this now correctly waits.
+                    # For Linux, this will return immediately.
+                    process.wait() 
                     self._send_log(gui_queue, job_path_str, f"Application for {original_file_path} closed. Deleting temporary file.")
+                    # Add a small delay to ensure the file handle is released by the OS
+                    time.sleep(0.5)
                     os.remove(temp_file_path)
                     self._send_log(gui_queue, job_path_str, f"Temporary file {temp_file_path} deleted.")
                 except Exception as cleanup_e:

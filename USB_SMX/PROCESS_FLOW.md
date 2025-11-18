@@ -1,10 +1,12 @@
-# Gateway Service Process Flow
+# USB SMX Process Flow
 
 ## 1. High-Level Overview
 
-The Gateway Service is a Python application designed to securely process files from removable USB devices. It runs as a background service that automatically detects USB insertions, processes the files according to a configurable set of policies, and generates a secure, encrypted package of the clean files.
+The USB SMX project is a secure data transfer and management system designed to securely process files from removable USB devices. It consists of three main components: the Gateway App, the Agent App, and the KMS Server.
 
-The application features a real-time graphical user interface (GUI) that automatically pops up for each device, showing the live status and logs of the processing job. The GUI closes automatically when the device is removed.
+The Gateway App runs as a background service that automatically detects USB insertions, processes the files according to a configurable set of policies, and generates a secure, encrypted package of the clean files. The Agent App runs on client devices to decrypt and process data. The KMS Server securely stores and manages cryptographic keys.
+
+The Gateway App features a real-time graphical user interface (GUI) that automatically pops up for each device, showing the live status and logs of the processing job. The GUI closes automatically when the device is removed.
 
 ---
 
@@ -12,9 +14,9 @@ The application features a real-time graphical user interface (GUI) that automat
 
 The application is broken down into several key modules, each with a distinct responsibility.
 
-### `main.py`
+### `main.py` (Gateway App)
 - **Role:** Application Entry Point.
-- **Function:** This is the script you run to start the service. Its primary job is to initialize and connect all other core components.
+- **Function:** This is the script you run to start the Gateway App. Its primary job is to initialize and connect all other core components.
 - **Process:**
   1. Creates a message `queue` for safe communication between the background threads and the main GUI thread.
   2. Initializes the `GuiManager`, which controls the user interface.
@@ -22,7 +24,7 @@ The application is broken down into several key modules, each with a distinct re
   4. Starts the `DeviceManager`'s background monitoring thread.
   5. Starts the `GuiManager`'s main loop, which makes the application wait for events (both user events and messages on the queue).
 
-### `device_manager.py`
+### `device_manager.py` (Gateway App)
 - **Role:** Hardware Interaction Layer.
 - **Function:** Detects USB device insertions and removals and manages the top-level workflow for each device.
 - **Process:**
@@ -34,7 +36,7 @@ The application is broken down into several key modules, each with a distinct re
      - Delegate the file processing task to the `FileProcessor`.
   3. **On Removal:** When a device is removed, it calls `_handle_device_removal`, which finds the job associated with that device and places a `DEVICE_REMOVED` message on the GUI queue, triggering the window to close.
 
-### `job_manager.py`
+### `job_manager.py` (Gateway App)
 - **Role:** Data Persistence and State Management.
 - **Function:** Manages the lifecycle of a processing job on the filesystem. It ensures that all data is stored in an organized way and that state transitions are logged.
 - **Process:**
@@ -42,7 +44,7 @@ The application is broken down into several key modules, each with a distinct re
   2. It creates the three core files: `metadata.json`, `state.json`, and `logs.jsonl`.
   3. Its `update_state` and `log_event` methods provide a centralized way to atomically update the job's status on disk while also sending real-time copies of these events to the GUI queue.
 
-### `file_processor.py`
+### `file_processor.py` (Gateway App)
 - **Role:** Core Processing Engine.
 - **Function:** Contains the primary business logic. It orchestrates the step-by-step pipeline that files are put through.
 - **Process:** Its main method, `process_device`, executes the following sequence:
@@ -53,7 +55,7 @@ The application is broken down into several key modules, each with a distinct re
   5. **Package:** If all checks pass, it encrypts the clean files and generates the final `manifest.json`.
   6. Throughout this process, it constantly calls the `JobManager` to update the job's state and log events.
 
-### `crypto.py`
+### `crypto.py` (Gateway App)
 - **Role:** Cryptography Utility.
 - **Function:** A helper module that provides all cryptographic functions.
 - **Process:** It is used by the `FileProcessor` to:
@@ -61,7 +63,7 @@ The application is broken down into several key modules, each with a distinct re
   - Encrypt individual files using the AES-256-GCM algorithm.
   - Calculate SHA-256 hashes.
 
-### `gui.py`
+### `gui.py` (Gateway App)
 - **Role:** User Interface Layer.
 - **Function:** Manages all aspects of the GUI using the Tkinter library. It is completely decoupled from the backend logic.
 - **Process:**
@@ -70,7 +72,7 @@ The application is broken down into several key modules, each with a distinct re
   3. On `STATE_UPDATE` and `LOG_EVENT` events, it finds the correct window by its Job ID and updates its status label, progress bar, and log box.
   4. On a `DEVICE_REMOVED` event, it finds the corresponding window and closes it.
 
-### `policy.json`
+### `policy.json` (Gateway App)
 - **Role:** Policy Configuration File.
 - **Function:** A simple JSON file that allows an administrator to define and configure the rules for the policy engine without modifying any code. It supports enabling/disabling policies and changing their parameters.
 
@@ -78,7 +80,7 @@ The application is broken down into several key modules, each with a distinct re
 
 ## 3. End-to-End Workflow Example
 
-1.  **Startup:** The user runs `python src/gateway/main.py`. The application starts, the device monitor begins running in the background, and the main thread waits for GUI events. No windows are visible.
+1.  **Startup:** The user runs `python USB_SMX/gateway_app/src/gateway/main.py`. The Gateway App starts, the device monitor begins running in the background, and the main thread waits for GUI events. No windows are visible.
 2.  **Device Insertion:** A user plugs in a USB drive (e.g., `E:`).
 3.  **Detection & Job Creation:** The `DeviceManager` detects `E:`, collects its metadata, and tells the `JobManager` to create a job directory (e.g., `jobs/b906af11...`).
 4.  **GUI Popup:** The `DeviceManager` sends a `NEW_JOB` message to the queue. The `GuiManager` receives it and a new status window for that job appears on the screen.
@@ -92,16 +94,17 @@ The application is broken down into several key modules, each with a distinct re
 
 ## 4. Data Storage Structure
 
-All persistent data generated by the application is stored within the `jobs/` directory, located at the root of the project.
+All persistent data generated by the Gateway App is stored within the `jobs/` directory, located in `USB_SMX/gateway_app/`.
 
 ```
-gateway_service/
-└── jobs/
-    └── <job_id>/                  <-- A unique directory for each processing job
-        ├── metadata.json          <-- Static metadata about the source device (serial, capacity, etc.)
-        ├── state.json             <-- The current state of the job and a history of all past states.
-        ├── logs.jsonl             <-- A detailed, append-only log of every event during the job.
-        └── manifest.json          <-- The final report listing all processed files and their cryptographic details.
+USB_SMX/
+└── gateway_app/
+    └── jobs/
+        └── <job_id>/                  <-- A unique directory for each processing job
+            ├── metadata.json          <-- Static metadata about the source device (serial, capacity, etc.)
+            ├── state.json             <-- The current state of the job and a history of all past states.
+            ├── logs.jsonl             <-- A detailed, append-only log of every event during the job.
+            └── manifest.json          <-- The final report listing all processed files and their cryptographic details.
 
 <Pendrive Root>/
 └── .gateway_output/               <-- Hidden folder created on the pendrive

@@ -5,6 +5,8 @@ import wmi
 import pythoncom
 import datetime
 import socket
+import platform
+import getpass
 from .job_manager import Job, JobState, JobManager
 from .file_processor import FileProcessor
 
@@ -73,14 +75,21 @@ class DeviceManager:
 
             # If we found the disk_drive, collect metadata
             metadata = {
-                "device_serial": disk_drive.SerialNumber.strip() if disk_drive.SerialNumber else "N/A",
-                "volume_guid": volume_obj.DeviceID,
-                "product_id": disk_drive.PNPDeviceID,
-                "device_capacity": int(disk_drive.Size) if disk_drive.Size else 0,
-                "filesystem_type": volume_obj.FileSystem,
-                "insertion_timestamp": datetime.datetime.utcnow().isoformat() + "Z",
-                "hostname": socket.gethostname(),
-                "gateway_version": "0.1.0" # Hardcoded for now
+                "device_info": {
+                    "device_serial": disk_drive.SerialNumber.strip() if disk_drive.SerialNumber else "N/A",
+                    "volume_guid": volume_obj.DeviceID,
+                    "product_id": disk_drive.PNPDeviceID,
+                    "device_capacity": int(disk_drive.Size) if disk_drive.Size else 0,
+                    "filesystem_type": volume_obj.FileSystem,
+                },
+                "gateway_info": {
+                    "hostname": socket.gethostname(),
+                    "ip_address": socket.gethostbyname(socket.gethostname()),
+                    "os_version": platform.platform(),
+                    "user": getpass.getuser(),
+                    "gateway_version": "0.1.0", # Hardcoded for now
+                    "insertion_timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+                }
             }
             return metadata
         except IndexError:

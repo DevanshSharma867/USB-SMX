@@ -250,11 +250,20 @@ class FileProcessor:
                 "original_size": original_size
             }
 
+        # Read the job's metadata to get gateway_info
+        try:
+            with open(job.path / "metadata.json", 'r') as f:
+                metadata = json.load(f)
+            gateway_info = metadata.get("gateway_info", {})
+        except (FileNotFoundError, json.JSONDecodeError):
+            gateway_info = {}
+
         # Create the final manifest
         manifest = self._crypto_manager.create_manifest(
             job, 
             file_manifest_data,
             wrapped_cek=wrapped_cek,
+            gateway_info=gateway_info,
             file_count=len(file_list),
             pendrive_output_path=str(pendrive_output_dir)
         )

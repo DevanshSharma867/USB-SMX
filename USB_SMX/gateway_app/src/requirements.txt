@@ -1,0 +1,4 @@
+wmi
+pywin32
+cryptography
+hvac

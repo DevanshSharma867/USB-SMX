@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "policies": [
+    {
+      "id": "POLICY-001",
+      "name": "Blacklisted File Extensions",
+      "enabled": true,
+      "type": "fileExtensionBlacklist",
+      "parameters": {
+        "extensions": [
+          ".exe",
+          ".dll",
+          ".bat",
+          ".sh",
+          ".msi",
+          ".vbs",
+          ".ps1",
+          ".jar"
+        ]
+      }
+    },
+    {
+      "id": "POLICY-002",
+      "name": "Maximum File Size",
+      "enabled": true,
+      "type": "maxFileSize",
+      "parameters": {
+        "max_size_mb": 100
+      }
+    },
+    {
+      "id": "POLICY-003",
+      "name": "Maximum Total File Count",
+      "enabled": true,
+      "type": "maxFileCount",
+      "parameters": {
+        "max_files": 10000
+      }
+    }
+  ]
+}

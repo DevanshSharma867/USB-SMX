@@ -190,3 +190,21 @@ secrets.json
 # Windows specific
 desktop.ini
 $RECYCLE.BIN/
+
+
+# USB_SMX Project-Specific Ignores
+
+# Ignore markdown files you don’t want
+USB_SMX/gemini.md
+USB_SMX/project.md
+
+# Ignore job output (the actual correct path)
+USB_SMX/gateway_app/jobs/
+USB_SMX/gateway_app/jobs/**
+
+# Ignore keys
+USB_SMX/gateway_app/src/gateway/keys/*
+USB_SMX/gateway_app/src/gateway/kms_master.key
+
+# Ignore any temp KMS folder (if needed)
+USB_SMX/kms_server/

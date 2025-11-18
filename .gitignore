@@ -205,6 +205,3 @@ USB_SMX/gateway_app/jobs/**
 # Ignore keys
 USB_SMX/gateway_app/src/gateway/keys/*
 USB_SMX/gateway_app/src/gateway/kms_master.key
-
-# Ignore any temp KMS folder (if needed)
-USB_SMX/kms_server/

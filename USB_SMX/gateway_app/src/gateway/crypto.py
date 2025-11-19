@@ -37,7 +37,6 @@ class CryptoManager:
         """Loads agent public keys from the JSON registry."""
         keys = {}
         registry_path = Path(__file__).parent / "keys" / "agent_key_registry.json"
-        project_root = Path(__file__).parent.parent.parent.parent # Adjust this path as needed
         
         if not registry_path.exists():
             print("Warning: agent_key_registry.json not found. No agent keys loaded.")
@@ -49,16 +48,14 @@ class CryptoManager:
             
             for agent_info in registry.get("agents", []):
                 agent_id = agent_info.get("id")
-                key_path_str = agent_info.get("public_key_path")
+                public_key_pem = agent_info.get("public_key_pem")
                 
-                if not agent_id or not key_path_str:
+                if not agent_id or not public_key_pem:
                     continue
 
-                # The path in the registry is relative to the project root
-                key_path = project_root / key_path_str
-                
-                with open(key_path, "rb") as f:
-                    public_key = serialization.load_pem_public_key(f.read())
+                public_key = serialization.load_pem_public_key(
+                    public_key_pem.encode('utf-8')
+                )
                 
                 if isinstance(public_key, rsa.RSAPublicKey):
                     keys[agent_id] = public_key

@@ -205,3 +205,6 @@ USB_SMX/gateway_app/jobs/**
 # Ignore keys
 USB_SMX/gateway_app/src/gateway/keys/*
 USB_SMX/gateway_app/src/gateway/kms_master.key
+
+# Agent-specific keys and sensitive data
+**/agent_*_keys/

@@ -3,16 +3,18 @@ import os
 import hashlib
 import json
 import datetime
+import base64
 from pathlib import Path
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-from cryptography.hazmat.primitives.asymmetric import ed25519
-from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ed25519, rsa, padding
+from cryptography.hazmat.primitives import serialization, hashes
 
 class CryptoManager:
     """Handles encryption, hashing, and digital signing."""
 
     def __init__(self):
         self._private_key = self._load_private_key()
+        self._agent_public_keys = self._load_agent_public_keys()
 
     def _load_private_key(self) -> ed25519.Ed25519PrivateKey | None:
         """Loads the Ed25519 private key from the filesystem."""
@@ -31,11 +33,64 @@ class CryptoManager:
             print(f"FATAL: Failed to load private key: {e}")
             return None
 
+    def _load_agent_public_keys(self) -> dict[str, rsa.RSAPublicKey]:
+        """Loads agent public keys from the JSON registry."""
+        keys = {}
+        registry_path = Path(__file__).parent / "keys" / "agent_key_registry.json"
+        project_root = Path(__file__).parent.parent.parent.parent # Adjust this path as needed
+        
+        if not registry_path.exists():
+            print("Warning: agent_key_registry.json not found. No agent keys loaded.")
+            return keys
+
+        try:
+            with open(registry_path, 'r') as f:
+                registry = json.load(f)
+            
+            for agent_info in registry.get("agents", []):
+                agent_id = agent_info.get("id")
+                key_path_str = agent_info.get("public_key_path")
+                
+                if not agent_id or not key_path_str:
+                    continue
+
+                # The path in the registry is relative to the project root
+                key_path = project_root / key_path_str
+                
+                with open(key_path, "rb") as f:
+                    public_key = serialization.load_pem_public_key(f.read())
+                
+                if isinstance(public_key, rsa.RSAPublicKey):
+                    keys[agent_id] = public_key
+                    print(f"Successfully loaded public key for agent: {agent_id}")
+
+        except Exception as e:
+            print(f"Error loading agent public keys: {e}")
+        
+        return keys
+
     def generate_cek(self, key_size_bytes: int = 32) -> bytes:
         """Generates a cryptographically secure Content Encryption Key (CEK)."""
         if key_size_bytes not in [16, 24, 32]:
             raise ValueError("Invalid key size for AES. Must be 16, 24, or 32 bytes.")
         return os.urandom(key_size_bytes)
+
+    def wrap_cek_for_all_agents(self, cek: bytes) -> dict[str, str]:
+        """Encrypts the CEK for each registered agent using their public RSA key."""
+        wrapped_ceks = {}
+        for agent_id, public_key in self._agent_public_keys.items():
+            wrapped_key = public_key.encrypt(
+                cek,
+                padding.OAEP(
+                    mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                    algorithm=hashes.SHA256(),
+                    label=None
+                )
+            )
+            wrapped_ceks[agent_id] = base64.b64encode(wrapped_key).decode('utf-8')
+        
+        print(f"CEK wrapped for {len(wrapped_ceks)} agent(s).")
+        return wrapped_ceks
 
     def encrypt_file(self, file_path: Path, cek: bytes) -> tuple[bytes, bytes, bytes] | None:
         """
@@ -74,16 +129,16 @@ class CryptoManager:
         sha256.update(data)
         return sha256.hexdigest()
 
-    def create_manifest(self, job, file_metadata: dict, wrapped_cek: str, gateway_info: dict, file_count: int = None, pendrive_output_path: str = None) -> dict:
+    def create_manifest(self, job, file_metadata: dict, multi_wrapped_ceks: dict, gateway_info: dict, file_count: int = None, pendrive_output_path: str = None) -> dict:
         """
         Creates the job manifest.
         
         Args:
             job: The job object.
             file_metadata: A dictionary mapping file paths to their metadata (hash, etc.).
-            wrapped_cek: The base64-encoded wrapped Content Encryption Key from the KMS.
+            multi_wrapped_ceks: A dictionary of CEKs wrapped for each agent.
             gateway_info: A dictionary with details about the gateway machine.
-            file_count: Total number of files processed.
+            file_count: Total number of a files processed.
             pendrive_output_path: Path where encrypted files are stored on the pendrive.
         
         Returns:
@@ -99,7 +154,7 @@ class CryptoManager:
             "files": file_metadata,
             "encryption_params": {
                 "algorithm": "AES-256-GCM",
-                "cek_wrapped": wrapped_cek
+                "multi_recipient_wrapped_ceks": multi_wrapped_ceks
             }
         }
         return manifest

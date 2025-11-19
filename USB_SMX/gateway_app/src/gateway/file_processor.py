@@ -210,7 +210,7 @@ class FileProcessor:
         self._job_manager.log_event(job, "PACKAGING_START", {"algorithm": "AES-256-GCM", "destination": drive_letter})
         
         cek = self._crypto_manager.generate_cek()
-        # wrapped_cek = self._kms.wrap_key(cek)
+        multi_wrapped_ceks = self._crypto_manager.wrap_cek_for_all_agents(cek)
 
         # Define pendrive output paths
         pendrive_output_dir = Path(f"{drive_letter}/.gateway_output")
@@ -262,7 +262,7 @@ class FileProcessor:
         manifest = self._crypto_manager.create_manifest(
             job, 
             file_manifest_data,
-            wrapped_cek=wrapped_cek,
+            multi_wrapped_ceks=multi_wrapped_ceks,
             gateway_info=gateway_info,
             file_count=len(file_list),
             pendrive_output_path=str(pendrive_output_dir)

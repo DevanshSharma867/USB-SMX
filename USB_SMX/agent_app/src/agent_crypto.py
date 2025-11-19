@@ -51,6 +51,22 @@ class AgentCryptoManager:
             print(f"Manifest signature verification failed: {e}")
             return False
 
+    def get_sha256_hash_for_file(self, file_path: Path) -> str | None:
+        """Calculates the SHA-256 hash of a file on disk."""
+        try:
+            sha256 = hashlib.sha256()
+            with open(file_path, 'rb') as f:
+                # Read in chunks to handle large files efficiently
+                for chunk in iter(lambda: f.read(4096), b""):
+                    sha256.update(chunk)
+            return sha256.hexdigest()
+        except FileNotFoundError:
+            print(f"Cannot hash file: {file_path} not found.")
+            return None
+        except Exception as e:
+            print(f"Error hashing file {file_path}: {e}")
+            return None
+
     def decrypt_file(self, encrypted_path: Path, cek: bytes, nonce: bytes, tag: bytes) -> bytes | None:
         """
         Decrypts a file using AES-256-GCM.

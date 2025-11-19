@@ -6,7 +6,7 @@ import sys
 import json
 from pathlib import Path
 
-# --- Add project root to sys.path for KMS import ---
+# --- Add project root to sys.path for imports ---
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 # ---------------------------------------------------
@@ -14,40 +14,12 @@ sys.path.insert(0, str(PROJECT_ROOT))
 try:
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
     from cryptography.exceptions import InvalidTag
-    from cryptography.hazmat.primitives.asymmetric import ed25519
-    from cryptography.hazmat.primitives import serialization
-    # from gateway_app.src.gateway.kms import KMS # Import the KMS
+    # We will use the AgentCryptoManager to handle all crypto operations
+    from agent_app.src.agent_crypto import AgentCryptoManager
 except ImportError as e:
     print(f"Error: A required library is missing or could not be imported: {e}")
     print("Please ensure 'cryptography' is installed ('pip install cryptography') and paths are correct.")
     sys.exit(1)
-
-# --- Configuration ---
-PUBLIC_KEY_PATH = Path(__file__).parent.parent / "gateway_app/src/gateway/keys/gateway_public_key.pem"
-
-def verify_manifest_signature(manifest: dict, public_key: ed25519.Ed25519PublicKey) -> bool:
-    """Verifies the signature of the manifest."""
-    if "signature" not in manifest:
-        print("Error: Manifest is not signed.")
-        return False
-
-    # Work on a copy to avoid modifying the original dictionary
-    manifest_to_verify = manifest.copy()
-    signature_data = manifest_to_verify.pop("signature")
-    signature = bytes.fromhex(signature_data["value"])
-    
-    canonical_manifest = json.dumps(manifest_to_verify, sort_keys=True, separators=(',', ':')).encode('utf-8')
-    
-    try:
-        public_key.verify(signature, canonical_manifest)
-        print("Manifest signature verified successfully.")
-        return True
-    except InvalidTag:
-        print("ERROR: Manifest signature is invalid! The manifest may have been tampered with.")
-        return False
-    except Exception as e:
-        print(f"An unexpected error occurred during signature verification: {e}")
-        return False
 
 def main():
     """Main function to run the decryption process."""
@@ -80,15 +52,12 @@ def main():
         print(f"Error: manifest.json not found at {manifest_path}")
         sys.exit(1)
 
-    # 3. Load public key
-    if not PUBLIC_KEY_PATH.exists():
-        print(f"FATAL: Gateway public key not found at {PUBLIC_KEY_PATH}")
-        sys.exit(1)
-    try:
-        with open(PUBLIC_KEY_PATH, "rb") as f:
-            public_key = serialization.load_pem_public_key(f.read())
-    except Exception as e:
-        print(f"FATAL: Failed to load public key: {e}")
+    # 3. Initialize Crypto Manager
+    # This will load the agent's config and keys automatically
+    print("Initializing crypto manager...")
+    crypto_manager = AgentCryptoManager()
+    if not crypto_manager._private_key: # Check if keys were loaded
+        print("FATAL: Could not initialize AgentCryptoManager. Check agent_config.json and key paths.")
         sys.exit(1)
 
     # 4. Load manifest and verify signature
@@ -100,23 +69,15 @@ def main():
         print(f"Error reading manifest.json: {e}")
         sys.exit(1)
 
-    if not verify_manifest_signature(manifest, public_key):
+    if not crypto_manager.verify_manifest_signature(manifest.copy()):
+        print("FATAL: Manifest signature verification failed. Aborting.")
         sys.exit(1)
 
-    # 5. Get Wrapped Key and Unwrap it using the KMS
-    print("Unwrapping decryption key via KMS...")
-    try:
-        # kms = KMS()
-            # wrapped_cek = manifest["encryption_params"]["cek_wrapped"]
-            # cek = kms.unwrap_key(wrapped_cek)        print("Key unwrapped successfully.")
-    except FileNotFoundError as e:
-        print(f"FATAL: Could not initialize KMS. {e}")
-        sys.exit(1)
-    except (InvalidTag, ValueError) as e:
-        print(f"FATAL: Failed to unwrap key. It may be corrupt or tampered with. {e}")
-        sys.exit(1)
-    except Exception as e:
-        print(f"FATAL: An unexpected error occurred during key unwrapping: {e}")
+    # 5. Unwrap the Content Encryption Key (CEK)
+    print("Unwrapping content key...")
+    cek = crypto_manager.unwrap_cek(manifest)
+    if not cek:
+        print("FATAL: Failed to unwrap content key. This agent may not be authorized or the manifest is corrupt.")
         sys.exit(1)
 
     # 6. Get data paths from manifest
@@ -125,7 +86,8 @@ def main():
         print("Error: manifest.json does not contain 'pendrive_output_path'.")
         sys.exit(1)
     
-    data_dir = Path(pendrive_output_path_str) / "data"
+    # The data path is relative to the manifest's location
+    data_dir = manifest_path.parent / "data"
     if not data_dir.is_dir():
         print(f"Error: Encrypted data directory not found at {data_dir}.")
         sys.exit(1)

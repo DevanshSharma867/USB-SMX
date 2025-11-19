@@ -1,4 +1,3 @@
-
 import sys
 import json
 from pathlib import Path
@@ -8,13 +7,12 @@ import subprocess
 import time
 import threading
 
-# --- Add project root to sys.path for KMS import ---
+# --- Add project root to sys.path ---
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 # ---------------------------------------------------
 
 from agent_crypto import AgentCryptoManager
-from gateway_app.src.gateway.kms import KMS
 from cryptography.exceptions import InvalidTag
 
 class AgentFileProcessor:
@@ -25,7 +23,6 @@ class AgentFileProcessor:
 
     def __init__(self):
         self.crypto_manager = AgentCryptoManager()
-        self.kms = KMS()
         self.loaded_jobs = {} # Stores {job_path_str: {'manifest': manifest, 'cek': cek, 'data_path': data_path}}
 
     def _send_log(self, gui_queue: queue.Queue, job_path_str: str, message: str):
@@ -66,20 +63,16 @@ class AgentFileProcessor:
             return False
         self._send_log(gui_queue, job_path_str, "Manifest signature verified.")
 
-        # 2. Unwrap CEK using the KMS
-        self._send_log(gui_queue, job_path_str, "Unwrapping key via KMS...")
-        try:
-            wrapped_cek = manifest["encryption_params"]["cek_wrapped"]
-            cek = self.kms.unwrap_key(wrapped_cek)
-            self._send_log(gui_queue, job_path_str, "Key unwrapped successfully.")
-        except (InvalidTag, ValueError, KeyError) as e:
-            self._send_log(gui_queue, job_path_str, f"FATAL: Failed to unwrap key. It may be corrupt, tampered with, or missing. {e}")
+        # 2. Unwrap CEK using the new asymmetric method
+        self._send_log(gui_queue, job_path_str, "Unwrapping content key...")
+        cek = self.crypto_manager.unwrap_cek(manifest)
+        
+        if not cek:
+            self._send_log(gui_queue, job_path_str, "FATAL: Failed to unwrap content key. The key may be missing, corrupt, or this agent may not be authorized.")
             self._send_status(gui_queue, job_path_str, "FAILED")
             return False
-        except Exception as e:
-            self._send_log(gui_queue, job_path_str, f"FATAL: An unexpected error occurred during key unwrapping: {e}")
-            self._send_status(gui_queue, job_path_str, "FAILED")
-            return False
+        
+        self._send_log(gui_queue, job_path_str, "Content key unwrapped successfully.")
         
         # Store loaded job data
         self.loaded_jobs[job_path_str] = {

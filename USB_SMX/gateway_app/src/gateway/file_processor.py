@@ -6,7 +6,7 @@ from enum import Enum
 from pathlib import Path
 from .job_manager import Job, JobState, JobManager
 from .crypto import CryptoManager
-from .kms import KMS
+# from .kms import KMS
 
 class ScanVerdict(Enum):
     """Enumeration of possible scan results."""
@@ -26,7 +26,7 @@ class FileProcessor:
     def __init__(self, job_manager: JobManager):
         self._job_manager = job_manager
         self._crypto_manager = CryptoManager()
-        self._kms = KMS()
+        # self._kms = KMS()
         self._policies = self._load_policies()
         self._mp_cmd_run_path = None # Initialize to None
         self.job = None
@@ -210,7 +210,7 @@ class FileProcessor:
         self._job_manager.log_event(job, "PACKAGING_START", {"algorithm": "AES-256-GCM", "destination": drive_letter})
         
         cek = self._crypto_manager.generate_cek()
-        wrapped_cek = self._kms.wrap_key(cek)
+        # wrapped_cek = self._kms.wrap_key(cek)
 
         # Define pendrive output paths
         pendrive_output_dir = Path(f"{drive_letter}/.gateway_output")

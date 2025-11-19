@@ -16,7 +16,7 @@ try:
     from cryptography.exceptions import InvalidTag
     from cryptography.hazmat.primitives.asymmetric import ed25519
     from cryptography.hazmat.primitives import serialization
-    from gateway_app.src.gateway.kms import KMS # Import the KMS
+    # from gateway_app.src.gateway.kms import KMS # Import the KMS
 except ImportError as e:
     print(f"Error: A required library is missing or could not be imported: {e}")
     print("Please ensure 'cryptography' is installed ('pip install cryptography') and paths are correct.")
@@ -106,10 +106,9 @@ def main():
     # 5. Get Wrapped Key and Unwrap it using the KMS
     print("Unwrapping decryption key via KMS...")
     try:
-        kms = KMS()
-        wrapped_cek = manifest["encryption_params"]["cek_wrapped"]
-        cek = kms.unwrap_key(wrapped_cek)
-        print("Key unwrapped successfully.")
+        # kms = KMS()
+            # wrapped_cek = manifest["encryption_params"]["cek_wrapped"]
+            # cek = kms.unwrap_key(wrapped_cek)        print("Key unwrapped successfully.")
     except FileNotFoundError as e:
         print(f"FATAL: Could not initialize KMS. {e}")
         sys.exit(1)

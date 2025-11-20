@@ -122,6 +122,12 @@ class AgentCryptoManager:
             print(f"Manifest signature verification failed: {e}")
             return False
 
+    def get_sha256_hash_for_data(self, data: bytes) -> str:
+        """Calculates the SHA-256 hash of a byte string."""
+        sha256 = hashlib.sha256()
+        sha256.update(data)
+        return sha256.hexdigest()
+
     def get_sha256_hash_for_file(self, file_path: Path) -> str | None:
         """Calculates the SHA-256 hash of a file on disk."""
         try:
@@ -150,5 +156,5 @@ class AgentCryptoManager:
             plaintext = aesgcm.decrypt(nonce, ciphertext + tag, None)
             return plaintext
         except Exception as e:
-            print(f"Failed to decrypt {encrypted_path}: {e}")
+            print(f"Failed to decrypt {encrypted_path}: {type(e).__name__} - {e}")
             return None

@@ -83,6 +83,62 @@ class AgentFileProcessor:
         self._send_status(gui_queue, job_path_str, "READY_FOR_ACCESS")
         return True
 
+    def decrypt_all_files_to_usb(self, job_path_str: str, drive_letter: str, gui_queue: queue.Queue):
+        """
+        Decrypts all files from the job and writes them to a new folder on the USB drive.
+        """
+        job_data = self.loaded_jobs.get(job_path_str)
+        if not job_data:
+            self._send_log(gui_queue, job_path_str, f"Error: Job data not loaded for {job_path_str}.")
+            self._send_status(gui_queue, job_path_str, "FAILED")
+            return
+
+        manifest = job_data['manifest']
+        cek = job_data['cek']
+        data_path = job_data['data_path']
+        
+        output_path = Path(drive_letter) / "SMX_Decrypted_Files"
+        try:
+            output_path.mkdir(parents=True, exist_ok=True)
+            self._send_log(gui_queue, job_path_str, f"Created output directory: {output_path}")
+        except Exception as e:
+            self._send_log(gui_queue, job_path_str, f"Error creating output directory: {e}")
+            self._send_status(gui_queue, job_path_str, "FAILED")
+            return
+
+        total_files = len(manifest["files"])
+        decrypted_count = 0
+        self._send_status(gui_queue, job_path_str, "DECRYPTING_ALL_FILES")
+
+        for original_file_path, file_info in manifest["files"].items():
+            self._send_log(gui_queue, job_path_str, f"Decrypting: {original_file_path}")
+            
+            encrypted_filename = file_info["encrypted_filename"]
+            encrypted_file_path = data_path / encrypted_filename
+            nonce = bytes.fromhex(file_info["nonce"])
+            tag = bytes.fromhex(file_info["tag"])
+
+            try:
+                plaintext = self.crypto_manager.decrypt_file(encrypted_file_path, cek, nonce, tag)
+                if not plaintext:
+                    self._send_log(gui_queue, job_path_str, f"Failed to decrypt {original_file_path}.")
+                    continue
+
+                # Recreate the original directory structure
+                destination_path = output_path / original_file_path
+                destination_path.parent.mkdir(parents=True, exist_ok=True)
+                
+                with open(destination_path, 'wb') as f:
+                    f.write(plaintext)
+                
+                decrypted_count += 1
+                
+            except Exception as e:
+                self._send_log(gui_queue, job_path_str, f"Error processing {original_file_path}: {e}")
+        
+        self._send_log(gui_queue, job_path_str, f"Decryption complete. {decrypted_count}/{total_files} files decrypted to {output_path}.")
+        self._send_status(gui_queue, job_path_str, "DECRYPTION_COMPLETE")
+
     def decrypt_and_open_single_file(self, job_path_str: str, original_file_path: str, gui_queue: queue.Queue):
         """
         Decrypts a single file to a temporary location and opens it with the default application.
@@ -104,8 +160,8 @@ class AgentFileProcessor:
 
         self._send_log(gui_queue, job_path_str, f"Attempting to open: {original_file_path}")
         
-        encrypted_blob_name = file_info["encrypted_blob_name"]
-        encrypted_file_path = data_path / encrypted_blob_name
+        encrypted_filename = file_info["encrypted_filename"]
+        encrypted_file_path = data_path / encrypted_filename
         nonce = bytes.fromhex(file_info["nonce"])
         tag = bytes.fromhex(file_info["tag"])
 

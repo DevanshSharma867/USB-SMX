@@ -125,7 +125,8 @@ class JobManager:
                 root_path_str += "\\"
             
             root_path = Path(root_path_str)
-            job.files_to_process = [p for p in root_path.rglob('*') if p.is_file()]
+            output_dir_name = "SMX_Encrypted_Output"
+            job.files_to_process = [p for p in root_path.rglob('*') if p.is_file() and output_dir_name not in p.parts]
             self.log_event(job, "ENUMERATION_COMPLETE", {"file_count": len(job.files_to_process)})
         except Exception as e:
             self.log_event(job, "ENUMERATION_FAILED", {"error": str(e)})
@@ -259,7 +260,8 @@ class JobManager:
             ciphertext, nonce, tag, original_size = encryption_result
             
             # Save the encrypted file
-            encrypted_filename = self.crypto_manager.get_sha256_hash(file_path.name.encode())
+            # Use the string of the full, unique path to generate the hash for the filename
+            encrypted_filename = self.crypto_manager.get_sha256_hash(str(file_path).encode())
             encrypted_file_path = data_dir / encrypted_filename
             
             try:

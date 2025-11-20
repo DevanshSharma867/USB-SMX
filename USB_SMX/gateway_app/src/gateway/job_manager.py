@@ -34,6 +34,7 @@ class Job:
     job_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     drive_letter: str = ""
     state: JobState = JobState.INITIALIZED
+    files_to_process: list = field(default_factory=list, init=False)
     _path: Path = field(default=None, init=False)
     
     @property
@@ -113,7 +114,7 @@ class JobManager:
             return
 
         # --- 1. File Enumeration ---
-        self.update_state(job, JobState.ENUMERATING)
+        self.update_state(job, JobState.ENUMERATING, {"detail": "Starting file discovery."})
         self.log_event(job, "ENUMERATION_START", {"root_path": job.drive_letter})
         try:
             # Ensure the root path has a trailing slash for correct path joining
@@ -122,28 +123,28 @@ class JobManager:
                 root_path_str += "\\"
             
             root_path = Path(root_path_str)
-            all_files = [p for p in root_path.rglob('*') if p.is_file()]
-            self.log_event(job, "ENUMERATION_COMPLETE", {"file_count": len(all_files)})
+            job.files_to_process = [p for p in root_path.rglob('*') if p.is_file()]
+            self.log_event(job, "ENUMERATION_COMPLETE", {"file_count": len(job.files_to_process)})
         except Exception as e:
             self.log_event(job, "ENUMERATION_FAILED", {"error": str(e)})
             self.update_state(job, JobState.FAILED, {"detail": "File enumeration failed."})
             return
         
-        if not all_files:
+        if not job.files_to_process:
             self.log_event(job, "NO_FILES_FOUND", {})
             self.update_state(job, JobState.SUCCESS, {"detail": "No files to process."})
             return
 
         # --- 2. Malware Scanning ---
-        self.update_state(job, JobState.SCANNING)
+        self.update_state(job, JobState.SCANNING, {"detail": "Starting malware scan."})
         defender_path = self._find_defender_path()
         if not defender_path:
             self.update_state(job, JobState.FAILED, {"detail": "Windows Defender scanner not found."})
             return
         
-        self.log_event(job, "SCANNING_START", {"scanner": "Windows Defender", "file_count": len(all_files)})
+        self.log_event(job, "SCANNING_START", {"scanner": "Windows Defender", "file_count": len(job.files_to_process)})
         threat_found = False
-        for file_path in all_files:
+        for file_path in job.files_to_process:
             try:
                 command = [str(defender_path), "-Scan", "-ScanType", "3", "-File", str(file_path), "-DisableRemediation"]
                 self.log_event(job, "DEFENDER_SCAN_START", {"command": " ".join(command)})
@@ -176,10 +177,10 @@ class JobManager:
             self.update_state(job, JobState.QUARANTINED, {"detail": "A threat was detected. Job quarantined."})
             return
 
-        self.log_event(job, "SCAN_COMPLETED_CLEAN", {"files_scanned": len(all_files)})
+        self.log_event(job, "SCAN_COMPLETED_CLEAN", {"files_scanned": len(job.files_to_process)})
 
         # --- 3. Wait for Agent Selection ---
-        self.update_state(job, JobState.WAITING_AGENT_SELECTION)
+        self.update_state(job, JobState.WAITING_AGENT_SELECTION, {"detail": "Scan complete. Awaiting user input."})
         agent_list = list(self.crypto_manager.get_available_agents().keys())
         
         self.gui_queue.put({
@@ -207,8 +208,12 @@ class JobManager:
         if not job:
             return
 
-        # Check if device is still present (simplified check)
-        if not Path(job.drive_letter).exists():
+        drive_path_str = job.drive_letter
+        if not drive_path_str.endswith("\\"):
+            drive_path_str += "\\"
+        drive_path = Path(drive_path_str)
+
+        if not drive_path.exists():
             self.update_state(job, JobState.ABORTED, {"detail": "Device removed before agent selection."})
             return
             
@@ -220,6 +225,17 @@ class JobManager:
         self.update_state(job, JobState.PACKAGING)
         self.log_event(job, "PACKAGING_START", {"selected_agents": selected_agents})
         
+        # Define output directory on the USB drive
+        output_dir = drive_path / "SMX_Encrypted_Output"
+        data_dir = output_dir / "data"
+        try:
+            output_dir.mkdir(exist_ok=True)
+            data_dir.mkdir(exist_ok=True)
+            self.log_event(job, "OUTPUT_DIR_CREATED", {"path": str(output_dir)})
+        except Exception as e:
+            self.update_state(job, JobState.FAILED, {"detail": f"Could not create output directory on USB drive: {e}"})
+            return
+
         cek = self.crypto_manager.generate_cek()
         wrapped_ceks = self.crypto_manager.wrap_cek_for_selected_agents(cek, selected_agents)
 
@@ -228,12 +244,46 @@ class JobManager:
             self.log_event(job, "PACKAGING_FAILED", {"reason": "CEK wrapping returned no keys."})
             return
         
-        manifest = {"job_id": job.job_id, "agents": selected_agents, "wrapped_ceks": wrapped_ceks}
-        signed_manifest = self.crypto_manager.sign_manifest(manifest)
-        self._write_json_atomically(job.path / "manifest.json", signed_manifest)
+        file_metadata = {}
+        for file_path in job.files_to_process:
+            self.log_event(job, "ENCRYPTING_FILE", {"file": str(file_path)})
+            
+            encryption_result = self.crypto_manager.encrypt_file(file_path, cek)
+            if not encryption_result:
+                self.log_event(job, "ENCRYPTION_FAILED", {"file": str(file_path)})
+                # Decide if one failure fails the job. For now, we'll just log and continue.
+                continue
 
-        self.log_event(job, "PACKAGING_COMPLETE", {"manifest_file": "manifest.json"})
-        self.update_state(job, JobState.SUCCESS)
+            ciphertext, nonce, tag, original_size = encryption_result
+            
+            # Save the encrypted file
+            encrypted_filename = self.crypto_manager.get_sha256_hash(file_path.name.encode())
+            encrypted_file_path = data_dir / encrypted_filename
+            
+            try:
+                with open(encrypted_file_path, 'wb') as f:
+                    f.write(ciphertext)
+            except Exception as e:
+                self.log_event(job, "FILE_WRITE_FAILED", {"file": str(encrypted_file_path), "error": str(e)})
+                continue
+
+            # Store metadata for the manifest
+            relative_path = str(file_path.relative_to(drive_path))
+            file_metadata[relative_path] = {
+                "encrypted_filename": encrypted_filename,
+                "original_size": original_size,
+                "sha256_hash_encrypted": self.crypto_manager.get_sha256_hash(ciphertext),
+                "nonce": nonce.hex(),
+                "tag": tag.hex()
+            }
+
+        # Create and write the final manifest to the USB output directory
+        manifest = self.crypto_manager.create_manifest(job, file_metadata, wrapped_ceks, {})
+        signed_manifest = self.crypto_manager.sign_manifest(manifest)
+        self._write_json_atomically(output_dir / "manifest.json", signed_manifest)
+
+        self.log_event(job, "PACKAGING_COMPLETE", {"manifest_file": str(output_dir / "manifest.json"), "encrypted_files": len(file_metadata)})
+        self.update_state(job, JobState.SUCCESS, {"detail": f"Successfully packaged {len(file_metadata)} files."})
 
 
     def update_state(self, job: Job, new_state: JobState, details: dict = None):

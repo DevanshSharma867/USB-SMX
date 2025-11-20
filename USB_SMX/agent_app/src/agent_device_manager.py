@@ -29,7 +29,7 @@ class AgentDeviceManager:
                 new_drives = current_drives - known_drives
                 for drive_id in new_drives:
                     drive_letter = wmi_connection.Win32_LogicalDisk(DeviceID=drive_id)[0].Name
-                    job_path = Path(f"{drive_letter}\\.gateway_output")
+                    job_path = Path(f"{drive_letter}\\SMX_Encrypted_Output")
                     if job_path.exists() and (job_path / "manifest.json").exists():
                         print(f"Found processed USB at {drive_letter}")
                         with self.active_jobs_lock:

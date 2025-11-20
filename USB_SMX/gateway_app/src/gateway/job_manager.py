@@ -35,6 +35,7 @@ class Job:
     drive_letter: str = ""
     state: JobState = JobState.INITIALIZED
     files_to_process: list = field(default_factory=list, init=False)
+    gateway_info: dict = field(default_factory=dict, init=False)
     _path: Path = field(default=None, init=False)
     
     @property
@@ -75,6 +76,7 @@ class JobManager:
 
     def _initialize_job(self, drive_letter: str, device_metadata: dict) -> Job | None:
         job = Job(drive_letter=drive_letter)
+        job.gateway_info = device_metadata.get("gateway_info", {})
         try:
             # Create the directory first to prevent a race condition with logging
             job.path.mkdir(parents=True, exist_ok=False)
@@ -277,10 +279,20 @@ class JobManager:
                 "tag": tag.hex()
             }
 
-        # Create and write the final manifest to the USB output directory
-        manifest = self.crypto_manager.create_manifest(job, file_metadata, wrapped_ceks, {})
+        # Create and write the final manifest
+        manifest = self.crypto_manager.create_manifest(
+            job, 
+            file_metadata, 
+            wrapped_ceks, 
+            job.gateway_info,
+            pendrive_output_path=str(output_dir)
+        )
         signed_manifest = self.crypto_manager.sign_manifest(manifest)
+        
+        # Write to the USB output directory
         self._write_json_atomically(output_dir / "manifest.json", signed_manifest)
+        # Also write a copy to the local job folder
+        self._write_json_atomically(job.path / "manifest.json", signed_manifest)
 
         self.log_event(job, "PACKAGING_COMPLETE", {"manifest_file": str(output_dir / "manifest.json"), "encrypted_files": len(file_metadata)})
         self.update_state(job, JobState.SUCCESS, {"detail": f"Successfully packaged {len(file_metadata)} files."})

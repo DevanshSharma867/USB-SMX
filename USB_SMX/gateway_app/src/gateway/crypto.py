@@ -72,21 +72,33 @@ class CryptoManager:
             raise ValueError("Invalid key size for AES. Must be 16, 24, or 32 bytes.")
         return os.urandom(key_size_bytes)
 
-    def wrap_cek_for_all_agents(self, cek: bytes) -> dict[str, str]:
-        """Encrypts the CEK for each registered agent using their public RSA key."""
+    def get_available_agents(self) -> dict[str, rsa.RSAPublicKey]:
+        """Returns the dictionary of loaded agent IDs and their public keys."""
+        return self._agent_public_keys
+
+    def wrap_cek_for_selected_agents(self, cek: bytes, selected_agents: list[str]) -> dict[str, str]:
+        """Encrypts the CEK for each selected agent using their public RSA key."""
         wrapped_ceks = {}
-        for agent_id, public_key in self._agent_public_keys.items():
-            wrapped_key = public_key.encrypt(
-                cek,
-                padding.OAEP(
-                    mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                    algorithm=hashes.SHA256(),
-                    label=None
+        for agent_id in selected_agents:
+            public_key = self._agent_public_keys.get(agent_id)
+            if not public_key:
+                print(f"Warning: Public key for selected agent '{agent_id}' not found. Skipping.")
+                continue
+
+            try:
+                wrapped_key = public_key.encrypt(
+                    cek,
+                    padding.OAEP(
+                        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                        algorithm=hashes.SHA256(),
+                        label=None
+                    )
                 )
-            )
-            wrapped_ceks[agent_id] = base64.b64encode(wrapped_key).decode('utf-8')
+                wrapped_ceks[agent_id] = base64.b64encode(wrapped_key).decode('utf-8')
+            except Exception as e:
+                print(f"Error wrapping CEK for agent '{agent_id}': {e}")
         
-        print(f"CEK wrapped for {len(wrapped_ceks)} agent(s).")
+        print(f"CEK wrapped for {len(wrapped_ceks)} selected agent(s).")
         return wrapped_ceks
 
     def encrypt_file(self, file_path: Path, cek: bytes) -> tuple[bytes, bytes, bytes] | None:

@@ -116,7 +116,12 @@ class JobManager:
         self.update_state(job, JobState.ENUMERATING)
         self.log_event(job, "ENUMERATION_START", {"root_path": job.drive_letter})
         try:
-            root_path = Path(job.drive_letter)
+            # Ensure the root path has a trailing slash for correct path joining
+            root_path_str = job.drive_letter
+            if not root_path_str.endswith("\\"):
+                root_path_str += "\\"
+            
+            root_path = Path(root_path_str)
             all_files = [p for p in root_path.rglob('*') if p.is_file()]
             self.log_event(job, "ENUMERATION_COMPLETE", {"file_count": len(all_files)})
         except Exception as e:
